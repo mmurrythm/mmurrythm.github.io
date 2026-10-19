@@ -139,7 +139,7 @@
       <nav class="nav-links" id="primary-navigation" aria-label="Main navigation">
         <a href="index.html" aria-current="page">HOME</a>
         <a href="projects.html">PROJECTS</a>
-        <a href="academics.html">ACADEMICS</a>
+        <a href="#academics">ACADEMICS</a>
         <a href="blogs.html">BLOGS</a>
         <a href="more.html">MORE ↗</a>
       </nav>
@@ -195,6 +195,21 @@
         menuButton.setAttribute('aria-expanded', String(!open));
         menuButton.textContent = open ? 'MENU +' : 'CLOSE −';
         navigation.classList.toggle('is-open', !open);
+      });
+      navigation.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          navigation.classList.remove('is-open');
+          menuButton.setAttribute('aria-expanded', 'false');
+          menuButton.textContent = 'MENU +';
+        });
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && navigation.classList.contains('is-open')) {
+          navigation.classList.remove('is-open');
+          menuButton.setAttribute('aria-expanded', 'false');
+          menuButton.textContent = 'MENU +';
+          menuButton.focus();
+        }
       });
       document.getElementById('year').textContent = new Date().getFullYear();
 

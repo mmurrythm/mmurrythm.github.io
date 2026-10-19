@@ -106,6 +106,9 @@
     .preview-card::before { content: ""; position: absolute; z-index: -1; inset: -2px; opacity: 0; background: conic-gradient(from 0deg at var(--spectrum-x) var(--spectrum-y), #ff3cac, #784ba0, #2b86c5, #35e0cf, #d7ff5f, #ffad42, #ff3cac); filter: blur(22px) saturate(1.5); transform: scale(1.15); transition: opacity .3s ease; }
     .preview-card::after { content: ""; position: absolute; z-index: -1; inset: 1px; background: linear-gradient(135deg, rgba(7, 15, 28, .94), rgba(7, 12, 23, .88)); pointer-events: none; }
     .preview-card > * { position: relative; }
+    .preview-image { display: block; width: calc(100% + 48px); height: 148px; margin: -24px -24px 20px; object-fit: cover; object-position: center; border-bottom: 1px solid rgba(102, 220, 255, .2); opacity: .88; filter: saturate(.88) contrast(1.04); transition: opacity .3s ease, filter .3s ease, transform .45s ease; }
+    .preview-card:hover .preview-image, .preview-card:focus-within .preview-image, .preview-card:active .preview-image { opacity: 1; filter: saturate(1.22) contrast(1.06); transform: scale(1.025); }
+    .preview-card .project-meta { margin-top: 0; }
     .preview-card:hover, .preview-card:focus-within, .preview-card:active { transform: translateY(-4px); border-color: rgba(255, 255, 255, .72); box-shadow: 0 0 26px rgba(95, 121, 255, .16), 0 12px 35px rgba(0, 0, 0, .22); }
     .preview-card:hover::before, .preview-card:focus-within::before, .preview-card:active::before { opacity: .95; animation: spectrum-drift 5s linear infinite; }
     .preview-card:hover .project-meta, .preview-card:focus-within .project-meta { color: #c6f9ff; }
@@ -214,24 +217,28 @@
       <div class="section-heading"><h2>Selected directions.</h2><a href="projects.html">ALL PROJECTS ↗</a></div>
       <div class="work-preview">
         <article class="preview-card">
+          <img class="preview-image" src="assests/graph-universe-bg.svg" alt="Abstract graph network illustrating vertices and edges" loading="lazy" decoding="async">
           <p class="project-meta">01 / INTERACTIVE MATHEMATICS</p>
           <h3>Graph Universe</h3>
           <p>An interactive exploration of graph theory: turn abstract vertices, edges, and structures into something you can inspect and experiment with.</p>
           <a class="secondary-link" href="projects/graph-universe.html">EXPLORE THE PROJECT ↗</a>
         </article>
         <article class="preview-card">
+          <img class="preview-image" src="assests/graph-universe-bg.svg" alt="Graph Universe visual motif accompanying the explanatory blog" loading="lazy" decoding="async">
           <p class="project-meta">02 / VISUAL FIELD NOTES</p>
           <h3>Inside the Graph Universe</h3>
           <p>A visual companion to the project, documenting its ideas and exploring the structures behind graph theory through a more narrative lens.</p>
           <a class="secondary-link" href="blogs/graph-universe.html">READ THE BLOG ↗</a>
         </article>
         <article class="preview-card">
+          <img class="preview-image" src="assests/maxwell-field/maxwell-field-1.png" alt="Electromagnetic field visualization from Maxwell Field Lab" loading="lazy" decoding="async">
           <p class="project-meta">03 / PHYSICS SIMULATION</p>
           <h3>Maxwell Field Lab</h3>
           <p>Explore electromagnetic fields through a hands-on lab built around the equations that connect electric and magnetic phenomena.</p>
           <a class="secondary-link" href="projects/maxwell-field-lab.html">OPEN THE LAB ↗</a>
         </article>
         <article class="preview-card">
+          <img class="preview-image" src="assests/seibishi-gameplay.webp" alt="Gameplay screenshot from the Seibishi game project" loading="lazy" decoding="async">
           <p class="project-meta">04 / SOFTWARE PROJECT</p>
           <h3>Seibishi</h3>
           <p>A game project developed in C and raylib, with its source code and development history available in the repository.</p>

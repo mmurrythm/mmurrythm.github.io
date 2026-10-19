@@ -26,6 +26,22 @@ main{padding-bottom:75px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 .notebook .repo-link { display:inline-flex; margin-top:12px; padding:11px 14px; border:1px solid rgba(102,220,255,.35); color:var(--cyan); font:10px var(--mono); letter-spacing:.08em; }\n.article .repo-link { display:inline-flex; margin-top:12px; padding:11px 14px; border:1px solid rgba(102,220,255,.35); color:var(--cyan); font:10px var(--mono); letter-spacing:.08em; }
 .article .repo-link:hover { background:rgba(102,220,255,.08); }
 @media(max-width:700px){.article-head{align-items:flex-start;flex-direction:column;gap:7px}}
+
+/* SEIBISHI screenshot cutouts: original repository captures. */
+.sei-hero{margin:28px 0 34px;position:relative;border:1px solid rgba(102,220,255,.34);background:#03070c;overflow:hidden;box-shadow:0 18px 65px rgba(0,0,0,.34)}
+.sei-hero img{display:block;width:100%;max-height:560px;object-fit:contain;object-position:center;background:radial-gradient(ellipse at 50% 45%,#10233a,#03070c 76%)}
+.sei-hero figcaption,.sei-shot figcaption{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 14px;border-top:1px solid var(--line);color:#9aacc0;font:9px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.sei-hero figcaption span:first-child,.sei-shot figcaption span:first-child{color:var(--cyan)}
+.sei-shot{margin:25px 0 30px;max-width:100%;border:1px solid rgba(102,220,255,.25);background:rgba(2,7,13,.94);overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.24)}
+.sei-shot img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain;background:radial-gradient(ellipse at 50% 45%,#10233a,#03070c 78%)}
+.sei-shot.compact{max-width:780px;margin-inline:auto}
+.sei-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:22px 0 32px}
+.sei-gallery .sei-shot{margin:0;align-self:start}
+.sei-gallery .sei-shot img{aspect-ratio:16/10;object-fit:contain}
+.article .sei-kicker{margin:28px 0 6px;color:var(--violet);font:9px var(--mono);letter-spacing:.13em;text-transform:uppercase}
+.article .sei-shot figcaption{font-size:8px;letter-spacing:.055em}
+.article .sei-shot figcaption span:last-child{color:#7089a0}
+@media(max-width:700px){.sei-gallery{grid-template-columns:1fr;gap:14px}.sei-hero{margin:20px 0 26px}.sei-hero figcaption,.sei-shot figcaption{align-items:flex-start;flex-direction:column;gap:5px}.sei-shot img{max-height:none}}
 </style></head>
 <body><a class="skip" href="#main">Skip to content</a><div class="ambient" aria-hidden="true"></div>
 <header class="header"><div class="container nav"><a class="brand" href="../../index.html" aria-label="MMURRYTHM home"><img src="../../assests/logo.png" alt=""><span class="brand-name">MMURRYTHM<span class="gradient">.</span><small class="brand-sub">PERSONAL LABORATORY</small></span></a><button class="menu" type="button" aria-expanded="false" aria-controls="site-links">MENU +</button><nav class="links" id="site-links" aria-label="Main navigation"><a href="../../index.html">HOME</a><a href="../../projects.html">PROJECTS</a><a href="../../academics.html">ACADEMICS</a><a href="../../blogs.html" aria-current="page">BLOGS</a><a href="../../more.html">MORE ↗</a></nav></div></header>
@@ -38,13 +54,13 @@ main{padding-bottom:75px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 <article class="article" id="article">
 <div class="article-head"><span>PROJECT ANNOUNCEMENT / 001</span><span>SOFTWARE · GAME DEVELOPMENT</span></div>
 <p>What happens when programming meets puzzle-solving and survival? The answer is <strong>SEIBISHI</strong>, a 2D maze-survival game developed in C using the raylib graphics library. Designed to challenge strategic thinking and quick decisions, it turns a simple maze into a contest of movement, timing, and survival.</p>
-<h3>The gameplay</h3>
+<figure class="sei-hero"><img src="https://raw.githubusercontent.com/mmurrythm/seibishi/main/screenshots/main-menu.png" alt="SEIBISHI main menu, captured from the game" loading="eager" decoding="async"><figcaption><span>SEIBISHI / 01 — THE MAIN MENU</span><span>Original game screenshot · No mockup</span></figcaption></figure><h3>The gameplay</h3>
 <p>SEIBISHI takes players through <strong>10 increasingly challenging levels</strong>, each with maze layouts, obstacles, objectives, and enemy encounters. Navigate the board, collect goals, avoid enemies, and manage limited health. Every move matters: a wrong turn can bring an enemy closer, while a carefully planned route can protect a run from falling apart.</p>
-<h3>Smarter enemies, greater challenges</h3>
+<figure class="sei-shot"><img src="https://raw.githubusercontent.com/mmurrythm/seibishi/main/screenshots/gameplay.png" alt="SEIBISHI in active maze gameplay" loading="lazy" decoding="async"><figcaption><span>02 / IN THE MAZE</span><span>Gameplay capture</span></figcaption></figure><h3>Smarter enemies, greater challenges</h3>
 <p>Enemy behavior changes as players advance. Early levels combine random movement with direct pursuit when the player is spotted. Later levels introduce more persistent chasing, and higher levels add predictive movement intended to anticipate the player’s direction. Players must adapt instead of relying on one escape plan.</p>
-<h3>Difficulty and scoring</h3>
+<figure class="sei-shot compact"><img src="https://raw.githubusercontent.com/mmurrythm/seibishi/main/screenshots/settings.png" alt="SEIBISHI settings screen" loading="lazy" decoding="async"><figcaption><span>03 / PLAYER SETTINGS</span><span>Configuration interface</span></figcaption></figure><h3>Difficulty and scoring</h3>
 <p>Three difficulty modes, <strong>Easy, Normal, and Hard</strong>, offer different levels of pressure. The scoring system rewards collecting goals while accounting for movement, asking players to balance efficient routes against the risk of enemy encounters.</p>
-<h3>Built with C and raylib</h3>
+<figure class="sei-shot"><img src="https://raw.githubusercontent.com/mmurrythm/seibishi/main/screenshots/gameover.png" alt="SEIBISHI game over screen" loading="lazy" decoding="async"><figcaption><span>04 / THE RUN ENDS</span><span>Game-over screen</span></figcaption></figure><h3>Built with C and raylib</h3>
 <p>Under the maze, SEIBISHI brings together several game-development systems:</p>
 <ul>
 <li><strong>Game-state management:</strong> distinct screens for the menu, gameplay, instructions, settings, leaderboard, credits, and other states.</li>
@@ -53,7 +69,7 @@ main{padding-bottom:75px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 <li><strong>Collision detection:</strong> grid-based movement and obstacle checks.</li>
 <li><strong>Audio and interface:</strong> sound effects, music controls, interactive menus, and visual feedback.</li>
 </ul>
-<h3>More than a maze</h3>
+<div class="sei-kicker">THE GAME, FRAME BY FRAME / 05—06</div><div class="sei-gallery"><figure class="sei-shot"><img src="https://raw.githubusercontent.com/mmurrythm/seibishi/main/screenshots/credits.png" alt="SEIBISHI credits screen" loading="lazy" decoding="async"><figcaption><span>05 / CREDITS</span><span>People behind the project</span></figcaption></figure><figure class="sei-shot"><img src="https://raw.githubusercontent.com/mmurrythm/seibishi/main/screenshots/main-menu.png" alt="SEIBISHI title and menu screen, second view" loading="lazy" decoding="async"><figcaption><span>06 / BACK TO THE START</span><span>The main menu</span></figcaption></figure></div><h3>More than a maze</h3>
 <p>Player profiles, a persistent leaderboard, configurable settings, and a credits screen extend the experience beyond the core puzzle. Together, these features make SEIBISHI a practical exploration of algorithms, file handling, user interaction, and game design in a compact C project.</p>
 <h3>Can you survive all 10 levels?</h3>
 <p class="closing">SEIBISHI is where every step becomes a decision and every level becomes a new test of survival.</p>

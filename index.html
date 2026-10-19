@@ -3,143 +3,252 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101114">
-  <meta name="description" content="Rythm — engineering, computer science, and visual problem-solving.">
-  <meta property="og:title" content="Rythm | Engineer in Progress">
-  <meta property="og:description" content="I observe, draw, model, and build.">
+  <meta name="theme-color" content="#050a12">
+  <meta name="description" content="Muhammed Maruf-Ur-Rashid (Rythm), CSE undergraduate at BUET. A personal laboratory for software, research, and creative technical work.">
+  <meta property="og:title" content="MMURRYTHM — Ideas in Motion">
+  <meta property="og:description" content="A personal laboratory for code, knowledge, and experimentation.">
   <meta property="og:type" content="website">
-  <title>Rythm — Engineer in Progress</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23101114'/%3E%3Cpath d='M25 75V25h27a17 17 0 0 1 0 34H25m26 0 24 16' fill='none' stroke='%23d9b45b' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <script defer src="assets/js/main.js"></script>
+  <title>MMURRYTHM — Ideas in Motion</title>
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050a12;
+      --panel: rgba(9, 20, 34, .78);
+      --panel-strong: rgba(9, 24, 40, .94);
+      --text: #edf6ff;
+      --muted: #9aacc0;
+      --cyan: #66dcff;
+      --blue: #338dce;
+      --violet: #b99aff;
+      --line: rgba(105, 202, 244, .19);
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --serif: Georgia, "Times New Roman", serif;
+      --width: 1160px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body { margin: 0; min-height: 100vh; overflow-x: hidden; background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.7; }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 5px; }
+    ::selection { background: var(--cyan); color: #03101b; }
+    .skip-link { position: fixed; z-index: 100; top: 10px; left: 10px; padding: 10px 14px; background: var(--cyan); color: #04101a; transform: translateY(-150%); }
+    .skip-link:focus { transform: translateY(0); }
+    .background-art { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse at 14% 15%, rgba(0, 115, 190, .19), transparent 38%), radial-gradient(ellipse at 84% 40%, rgba(112, 65, 174, .12), transparent 42%), var(--bg); }
+    .background-art::before { content: ""; position: absolute; inset: -45%; background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(29, 153, 214, .13) 65deg, transparent 125deg, rgba(155, 105, 221, .10) 205deg, transparent 280deg); filter: blur(78px); animation: atmosphere 52s linear infinite; }
+    .background-art::after { content: ""; position: absolute; inset: 0; opacity: .16; background-image: linear-gradient(rgba(100, 181, 224, .18) 1px, transparent 1px), linear-gradient(90deg, rgba(100, 181, 224, .18) 1px, transparent 1px); background-size: 48px 48px; mask-image: linear-gradient(to bottom, black, transparent 88%); }
+    #circuit { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .52; }
+    @keyframes atmosphere { to { transform: rotate(360deg); } }
+    .container { width: min(var(--width), calc(100% - 48px)); margin-inline: auto; }
+    .site-header { position: sticky; top: 0; z-index: 20; background: rgba(5, 10, 18, .82); border-bottom: 1px solid var(--line); backdrop-filter: blur(18px); }
+    .navigation { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .brand img { width: 46px; height: 46px; object-fit: cover; border: 1px solid rgba(105, 220, 255, .32); border-radius: 10px; box-shadow: 0 0 24px rgba(40, 157, 224, .12); }
+    .brand-name { font-size: 13px; font-weight: 750; letter-spacing: .16em; line-height: 1.3; }
+    .brand-subtitle { display: block; margin-top: 4px; color: var(--muted); font: 9px var(--mono); letter-spacing: .12em; }
+    .nav-links { display: flex; align-items: center; gap: clamp(13px, 2.1vw, 27px); }
+    .nav-links a { padding-block: 10px; color: var(--muted); font: 10px var(--mono); letter-spacing: .11em; transition: color .2s ease; }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--cyan); }
+    .nav-links a[aria-current="page"]::after { content: ""; display: block; height: 1px; margin-top: 5px; background: var(--cyan); }
+    .menu-button { display: none; padding: 10px 12px; color: var(--cyan); border: 1px solid var(--line); background: var(--panel); font: 10px var(--mono); letter-spacing: .08em; cursor: pointer; }
+    .hero { min-height: min(760px, calc(100vh - 82px)); display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: clamp(30px, 6vw, 88px); padding-block: 82px 72px; }
+    .eyebrow { color: var(--cyan); font: 10px var(--mono); letter-spacing: .15em; text-transform: uppercase; }
+    .availability { display: inline-flex; align-items: center; gap: 10px; padding: 8px 11px; border: 1px solid var(--line); background: rgba(7, 20, 33, .55); }
+    .availability-dot { width: 6px; height: 6px; border-radius: 50%; background: #80f0ca; box-shadow: 0 0 12px #80f0ca; }
+    h1 { margin: 26px 0 22px; font-size: clamp(44px, 6.3vw, 78px); line-height: 1.04; font-weight: 560; letter-spacing: -.065em; }
+    .gradient-text { color: var(--cyan); background: linear-gradient(105deg, #8be8ff 3%, #b8a4ff 48%, #f0b7ee 72%, #7fe7ff 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-description { max-width: 620px; color: #b4c4d7; font-size: 15px; line-height: 1.95; }
+    .hero-description strong { color: var(--text); font-weight: 600; }
+    .hero-note { max-width: 510px; margin-top: 23px; padding-left: 16px; border-left: 2px solid var(--violet); color: #d1c8ed; font: italic 15px/1.8 var(--serif); }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-top: 31px; }
+    .primary-link { display: inline-flex; align-items: center; gap: 22px; padding: 13px 16px; color: #04111b; background: var(--text); font: 10px var(--mono); letter-spacing: .08em; transition: background .2s ease, transform .2s ease; }
+    .primary-link:hover { background: var(--cyan); transform: translateY(-2px); }
+    .secondary-link { padding-bottom: 5px; color: var(--muted); border-bottom: 1px solid var(--line); font: 10px var(--mono); letter-spacing: .08em; }
+    .secondary-link:hover { color: var(--cyan); border-color: var(--cyan); }
+    .micro-note { margin-top: 31px; color: #69839b; font: 9px var(--mono); letter-spacing: .14em; }
+    .emblem-stage { position: relative; display: grid; place-items: center; min-height: 400px; isolation: isolate; }
+    .emblem-stage::before, .emblem-stage::after { content: ""; position: absolute; width: min(78%, 330px); aspect-ratio: 1; border: 1px solid rgba(102, 220, 255, .27); border-radius: 50%; animation: orbit 34s linear infinite; }
+    .emblem-stage::after { width: min(62%, 260px); border-color: rgba(185, 154, 255, .32); border-style: dashed; animation-direction: reverse; animation-duration: 48s; }
+    .emblem-stage img { position: relative; z-index: 1; width: min(66%, 264px); height: auto; border-radius: 3px; filter: drop-shadow(0 0 28px rgba(65, 175, 255, .19)); animation: float 7s ease-in-out infinite; }
+    .orbit-label { position: absolute; color: #7795ad; font: 9px var(--mono); letter-spacing: .12em; }
+    .orbit-label.top { top: 10px; }
+    .orbit-label.bottom { bottom: 12px; }
+    .orbit-cross { position: absolute; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(102,220,255,.18), transparent); }
+    @keyframes orbit { to { transform: rotate(360deg); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+    .ticker { overflow: hidden; border-block: 1px solid var(--line); background: rgba(5, 12, 21, .48); }
+    .ticker-track { width: max-content; padding-block: 15px; color: #8ba6bc; font: 9px var(--mono); letter-spacing: .16em; animation: ticker 38s linear infinite; }
+    .ticker-track span { margin-inline: 20px; color: var(--cyan); }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+    .section { padding-block: 54px 62px; border-bottom: 1px solid var(--line); }
+    .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 25px; }
+    .section-heading h2 { margin: 0; font-size: clamp(24px, 3vw, 34px); font-weight: 520; letter-spacing: -.045em; }
+    .section-heading a { color: var(--cyan); font: 10px var(--mono); white-space: nowrap; }
+    .about-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 35px; }
+    .about-grid p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.95; }
+    .interest-list { display: flex; flex-wrap: wrap; align-content: start; gap: 9px; }
+    .interest-list span, .tag { padding: 8px 10px; border: 1px solid var(--line); color: #b7cbe0; background: rgba(8, 20, 33, .48); font: 9px var(--mono); letter-spacing: .04em; }
+    .work-preview { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .preview-card { display: flex; flex-direction: column; align-items: flex-start; min-height: 235px; padding: 24px; border: 1px solid var(--line); background: linear-gradient(135deg, rgba(12, 33, 54, .86), rgba(7, 14, 26, .82)); transition: border-color .2s ease, transform .2s ease; }
+    .preview-card:hover { transform: translateY(-3px); border-color: rgba(102, 220, 255, .46); }
+    .preview-card h3 { margin: 10px 0 4px; font: 25px var(--serif); }
+    .preview-card p:not(.eyebrow) { color: var(--muted); font-size: 13px; line-height: 1.85; }
+    .preview-card .secondary-link { margin-top: auto; }
+    .project-meta { color: var(--cyan); font: 9px var(--mono); letter-spacing: .12em; }
+    .academic-strip { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: 23px; border: 1px solid var(--line); background: rgba(8, 20, 33, .62); }
+    .academic-strip h3 { margin: 5px 0 2px; font-size: 19px; font-weight: 550; }
+    .academic-strip p { margin: 0; color: var(--muted); font-size: 13px; }
+    .profile-links { display: flex; flex-wrap: wrap; gap: 12px 22px; }
+    .profile-links a { color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 4px; font-size: 12px; }
+    .profile-links a:hover { color: var(--cyan); }
+    .site-footer { display: flex; justify-content: space-between; gap: 20px; padding-block: 24px 34px; color: #6f879d; font: 9px var(--mono); letter-spacing: .09em; }
+    @media (max-width: 850px) { .navigation { gap: 16px; } .nav-links { gap: 13px; } .nav-links a { font-size: 9px; letter-spacing: .05em; } .hero { gap: 24px; } }
+    @media (max-width: 720px) {
+      .container { width: calc(100% - 36px); }
+      .navigation { min-height: 72px; }
+      .brand img { width: 40px; height: 40px; }
+      .menu-button { display: block; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 10px 20px 18px; flex-direction: column; align-items: stretch; gap: 0; background: var(--panel-strong); border-bottom: 1px solid var(--line); }
+      .nav-links.is-open { display: flex; }
+      .nav-links a { padding-block: 13px; border-bottom: 1px solid var(--line); font-size: 10px; }
+      .nav-links a[aria-current="page"]::after { display: none; }
+      .hero { min-height: auto; grid-template-columns: 1fr; gap: 24px; padding-block: 62px 48px; }
+      h1 { font-size: clamp(43px, 11vw, 66px); }
+      .emblem-stage { min-height: 315px; }
+      .about-grid, .work-preview { grid-template-columns: 1fr; }
+      .section-heading { align-items: flex-start; }
+      .academic-strip { align-items: flex-start; }
+      .site-footer { flex-direction: column; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <div class="background-art" aria-hidden="true"><canvas id="circuit"></canvas></div>
   <header class="site-header">
-    <a class="wordmark" href="#top" aria-label="Rythm home"><span class="wordmark-mark">R.</span><span>RYTHM<span class="wordmark-dot">/</span>LAB</span></a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu <span aria-hidden="true">☰</span></button>
-    <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-      <a href="#about">About</a><a href="#skills">Toolkit</a><a href="#work">Projects</a><a href="#education">Education</a><a href="#achievements">Achievements</a><a href="#research">Research</a><a href="#trajectory">Trajectory</a>
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch colour theme" title="Switch colour theme">◐</button>
-    </nav>
+    <div class="container navigation">
+      <a class="brand" href="index.html" aria-label="MMURRYTHM home">
+        <img src="assets/logo.png" alt="">
+        <span class="brand-name">MMURRYTHM<span class="gradient-text">.</span><small class="brand-subtitle">PERSONAL LAB / 2026—</small></span>
+      </a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation">MENU +</button>
+      <nav class="nav-links" id="primary-navigation" aria-label="Main navigation">
+        <a href="index.html" aria-current="page">HOME</a>
+        <a href="projects.html">PROJECTS</a>
+        <a href="academics.html">ACADEMICS</a>
+        <a href="blogs.html">BLOGS</a>
+        <a href="more.html">MORE ↗</a>
+      </nav>
+    </div>
   </header>
-
   <main id="main">
-    <section class="hero section-shell" id="top">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="status-dot"></span> ENGINEERING · COMPUTING · VISUAL THINKING</p>
-        <h1>Ideas become<br><span class="gold-text">things you can see.</span></h1>
-        <p class="hero-lede">I’m Rythm — an engineering student exploring computer science, mathematical structure, and the craft of building useful things.</p>
-        <p class="hero-method">Observe <span>→</span> Draw <span>→</span> Model <span>→</span> Build</p>
+    <section class="container hero" id="top">
+      <div>
+        <div class="eyebrow availability"><span class="availability-dot"></span> ENGINEERING · COMPUTING · CREATIVE WORK</div>
+        <h1>Ideas in<br><span class="gradient-text">motion.</span></h1>
+        <p class="hero-description">I’m <strong>Muhammed Maruf-Ur-Rashid</strong>, an undergraduate studying Computer Science &amp; Engineering at BUET. This is my personal laboratory for software, research, mathematical ideas, and experiments still taking shape.</p>
+        <p class="hero-note">Observe the system. Understand the mechanism. Build, test, revise.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#work">Explore my work <span aria-hidden="true">↘</span></a>
-          <a class="text-link" href="https://github.com/mmurrythm" target="_blank" rel="noreferrer">GitHub profile ↗</a>
+          <a class="primary-link" href="projects.html">EXPLORE MY WORK <span aria-hidden="true">↗</span></a>
+          <a class="secondary-link" href="blogs.html">READ MY NOTES →</a>
         </div>
         <p class="micro-note">CURRENT MODE: LEARNING BY MAKING</p>
       </div>
-      <div class="hero-art" aria-label="Decorative technical drawing of an orbital mechanism">
-        <div class="art-label art-label-top">FIG. 01 / THINKING MACHINE</div>
-        <svg class="orbit-art" viewBox="0 0 520 520" role="img" aria-labelledby="orbit-title orbit-desc">
-          <title id="orbit-title">Orbital engineering sketch</title>
-          <desc id="orbit-desc">A gold and blue technical illustration of intersecting orbits, a central gear-like form, and measurement marks.</desc>
-          <defs>
-            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="currentColor" stroke-opacity=".11" stroke-width=".7"/></pattern>
-            <linearGradient id="goldStroke" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4d98a"/><stop offset="1" stop-color="#b98a32"/></linearGradient>
-          </defs>
-          <rect x="20" y="20" width="480" height="480" fill="url(#grid)" rx="8"/>
-          <circle cx="260" cy="260" r="174" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-dasharray="3 8"/>
-          <ellipse cx="260" cy="260" rx="205" ry="92" transform="rotate(-38 260 260)" fill="none" stroke="url(#goldStroke)" stroke-width="2.5"/>
-          <ellipse cx="260" cy="260" rx="205" ry="92" transform="rotate(47 260 260)" fill="none" stroke="#6da9d6" stroke-width="1.7"/>
-          <circle cx="260" cy="260" r="72" fill="none" stroke="url(#goldStroke)" stroke-width="2"/>
-          <circle cx="260" cy="260" r="52" fill="none" stroke="currentColor" stroke-opacity=".7" stroke-width="1.5"/>
-          <circle cx="260" cy="260" r="20" fill="#d9b45b" fill-opacity=".18" stroke="#d9b45b" stroke-width="2"/>
-          <path d="M260 164V224 M260 296V356 M164 260H224 M296 260H356 M192 192l43 43 M285 285l43 43 M328 192l-43 43 M235 285l-43 43" stroke="currentColor" stroke-opacity=".55" stroke-width="1.5"/>
-          <circle cx="114" cy="172" r="8" fill="#6da9d6"/><circle cx="392" cy="153" r="7" fill="#d9b45b"/><circle cx="363" cy="385" r="9" fill="#6da9d6"/>
-          <path d="M114 172L78 137H45 M392 153l36-31h38 M363 385l42 31h34" fill="none" stroke="currentColor" stroke-opacity=".55"/>
-          <g fill="currentColor" font-family="monospace" font-size="10"><text x="44" y="128">VECTOR A</text><text x="426" y="113">ORBIT B</text><text x="402" y="440">NODE C</text><text x="278" y="250">0,0</text><text x="35" y="480">SCALE 1:1 / CONCEPT SKETCH</text></g>
-          <path d="M260 54v18 M260 448v18 M54 260h18 M448 260h18" stroke="currentColor" stroke-width="1.2" opacity=".6"/>
-        </svg>
-        <div class="art-label art-label-bottom">OBSERVE / MODEL / ITERATE</div>
+      <div class="emblem-stage" aria-label="Iridescent MMURRYTHM emblem framed by animated orbital rings">
+        <span class="orbit-label top">FIG. 001 / THINKING SYSTEM</span>
+        <span class="orbit-cross" aria-hidden="true"></span>
+        <img src="assets/logo.png" alt="MMURRYTHM iridescent circuit emblem">
+        <span class="orbit-label bottom">CODE · MATHEMATICS · MATTER</span>
       </div>
-      <div class="hero-index"><span>01</span><span class="index-line"></span><span>PORTFOLIO / 2026—</span></div>
     </section>
-
-    <section class="ticker" aria-label="Areas of interest"><div>COMPUTER SCIENCE <i>✳</i> ENGINEERING <i>✳</i> MATHEMATICS <i>✳</i> VISUAL EXPLANATION <i>✳</i> SYSTEMS THINKING <i>✳</i></div></section>
-
-    <section class="section-shell content-section" id="about">
-      <div class="section-heading"><p class="eyebrow">01 / THE APPROACH</p><h2>Curiosity, made tangible.</h2></div>
+    <div class="ticker" aria-label="Areas of interest"><div class="ticker-track" aria-hidden="true">COMPUTER SCIENCE <span>✳</span> ENGINEERING <span>✳</span> MATHEMATICS <span>✳</span> VISUAL EXPLANATION <span>✳</span> SYSTEMS THINKING <span>✳</span> COMPUTER SCIENCE <span>✳</span> ENGINEERING <span>✳</span> MATHEMATICS <span>✳</span> VISUAL EXPLANATION <span>✳</span> SYSTEMS THINKING <span>✳</span></div></div>
+    <section class="container section" id="about">
+      <div class="section-heading"><h2>A little about my direction.</h2><a href="more.html">MORE ABOUT ME ↗</a></div>
       <div class="about-grid">
-        <div class="about-statement"><p class="large-copy">“Everything I learn, I try to <span class="gold-text">draw it, observe it, then calculate it.</span>”</p><p>My ideal workspace sits somewhere between a lab notebook, an engineering drawing, and a software workbench: ideas should be testable, systems should be understandable, and learning should leave evidence.</p></div>
-        <div class="principle-list">
-          <article><span class="principle-no">A</span><div><h3>Visualise first</h3><p>Turn abstract ideas into diagrams, graphs, geometric relationships, and models.</p></div></article>
-          <article><span class="principle-no">B</span><div><h3>Understand the mechanism</h3><p>Look beneath the interface: data structures, logic, constraints, and how components interact.</p></div></article>
-          <article><span class="principle-no">C</span><div><h3>Build, test, revise</h3><p>Use small working programs and experiments to turn understanding into capability.</p></div></article>
-        </div>
+        <p>I’m interested in how ideas become understandable systems: how an algorithm behaves, how a mathematical model describes something real, and how code can make an abstract concept easier to explore. I want this website to document the process, not just the polished result.</p>
+        <div class="interest-list" aria-label="Areas of interest"><span>COMPUTER SCIENCE</span><span>MATHEMATICS</span><span>ENGINEERING</span><span>VISUAL EXPLANATIONS</span><span>INDEPENDENT PROJECTS</span><span>RESEARCH</span></div>
       </div>
     </section>
-
-    <section class="section-shell content-section" id="skills">
-      <div class="section-heading"><p class="eyebrow">02 / THE TOOLKIT</p><h2>Skills in progress.</h2><p class="section-intro">A transparent snapshot of tools I’m learning and using. Progress is not a credential; the goal is to turn each skill into working projects.</p></div>
-      <div class="skill-layout">
-        <div class="skill-group"><div class="skill-group-head"><span class="skill-icon">⌘</span><h3>Programming</h3></div>
-          <div class="skill-row"><span>C</span><span class="skill-state">Fundamentals · OOP next</span><div class="skill-track"><i style="--level:68%"></i></div></div>
-          <div class="skill-row"><span>C++</span><span class="skill-state">Learning</span><div class="skill-track"><i style="--level:42%"></i></div></div>
-          <div class="skill-row"><span>Java</span><span class="skill-state">Learning</span><div class="skill-track"><i style="--level:28%"></i></div></div>
-          <div class="skill-row"><span>JavaScript</span><span class="skill-state">Building this site</span><div class="skill-track"><i style="--level:24%"></i></div></div>
-        </div>
-        <div class="skill-group"><div class="skill-group-head"><span class="skill-icon">⌁</span><h3>Developer workflow</h3></div>
-          <div class="skill-row"><span>Git & GitHub</span><span class="skill-state">Practising daily</span><div class="skill-track"><i style="--level:62%"></i></div></div>
-          <div class="skill-row"><span>Bash / Terminal</span><span class="skill-state">Scripting basics</span><div class="skill-track"><i style="--level:68%"></i></div></div>
-          <div class="skill-row"><span>Data structures & algorithms</span><span class="skill-state">Foundations</span><div class="skill-track"><i style="--level:35%"></i></div></div>
-          <div class="skill-row"><span>HTML & CSS</span><span class="skill-state">Portfolio build</span><div class="skill-track"><i style="--level:45%"></i></div></div>
-        </div>
-      </div>
-      <p class="fine-print">Progress bars are illustrative self-assessments, not standardized proficiency ratings. Edit them as your evidence changes.</p>
-    </section>
-
-    <section class="section-shell content-section" id="work">
-      <div class="section-heading"><p class="eyebrow">03 / THE WORKBENCH</p><h2>Projects & experiments.</h2><p class="section-intro">Early work is still work. Document the question, the mechanism, what failed, and what changed.</p></div>
-      <div class="project-grid">
-        <article class="project-card project-featured"><div class="project-visual visual-orbit"><span class="visual-tag">GITHUB REPOSITORY</span><svg viewBox="0 0 300 180" aria-hidden="true"><ellipse cx="150" cy="90" rx="112" ry="36" fill="none" stroke="#d9b45b" stroke-width="2" transform="rotate(-24 150 90)"/><ellipse cx="150" cy="90" rx="112" ry="36" fill="none" stroke="#6da9d6" stroke-width="2" transform="rotate(38 150 90)"/><circle cx="150" cy="90" r="25" fill="none" stroke="#d9b45b" stroke-width="2"/><circle cx="150" cy="90" r="7" fill="#d9b45b"/></svg></div><div class="project-meta"><span>01 / SOFTWARE PROJECT</span><span>PUBLIC REPOSITORY</span></div><h3>Seibishi</h3><p>A software project hosted on GitHub. Visit the repository for its source code, documentation, current implementation, and development history.</p><div class="tag-row"><span>GitHub</span><span>Software</span><span>Open source</span></div><a class="project-link" href="https://github.com/mmurrythm/seibishi" target="_blank" rel="noreferrer">Explore Seibishi ↗</a></article>
-        <article class="project-card"><div class="project-visual visual-terminal"><div><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span><p>$ git status</p><p class="terminal-output">working tree → learning</p><p>$ ./iterate.sh</p><p class="terminal-output">build · test · repeat_</p></div></div><div class="project-meta"><span>02 / DEVELOPER TOOLS</span><span>LEARNING LAB</span></div><h3>Command-line experiments</h3><p>Small Bash, Git, and C exercises that strengthen fluency with files, processes, version control, and program logic.</p><div class="tag-row"><span>Bash</span><span>Git</span><span>C</span></div><a class="project-link" href="https://github.com/mmurrythm" target="_blank" rel="noreferrer">Browse repositories ↗</a></article>
-        <article class="project-card"><div class="project-visual visual-notebook"><span class="notebook-equation">f(x) → model → test</span><svg viewBox="0 0 300 100" aria-hidden="true"><path d="M12 80 C50 78 52 12 90 20 S130 89 164 53 S220 13 286 24" fill="none" stroke="#d9b45b" stroke-width="2.5"/><path d="M12 84H288M20 8V90" stroke="currentColor" stroke-opacity=".45" stroke-width="1" stroke-dasharray="3 5"/></svg></div><div class="project-meta"><span>03 / LEARNING SYSTEMS</span><span>ONGOING</span></div><h3>Visual study notebooks</h3><p>Exam-preparation and concept notes built around diagrams, worked examples, graphs, and concise explanations.</p><div class="tag-row"><span>Mathematics</span><span>Physics</span><span>Technical writing</span></div><a class="project-link" href="https://github.com/mmurrythm" target="_blank" rel="noreferrer">View GitHub ↗</a></article>
-      </div>
-      <p class="fine-print">Replace planned/in-progress items with repository links, screenshots, demos, and measured outcomes as projects mature. Do not label an idea as completed.</p>
-    </section>
-
-    <section class="section-shell content-section" id="education">
-      <div class="section-heading"><p class="eyebrow">04 / THE FOUNDATION</p><h2>Education & learning.</h2></div>
-      <div class="timeline">
-        <article class="timeline-item"><div class="timeline-marker"></div><div class="timeline-date">UNDERGRADUATE</div><div class="timeline-body"><h3>B.Sc. track — Computer Science & Engineering</h3><p class="timeline-place">Bangladesh University of Engineering and Technology (BUET)</p><p>Undergraduate study in computer science and engineering, building foundations in programming, mathematics, physics, and computational problem-solving.</p></div></article>
-        <article class="timeline-item"><div class="timeline-marker"></div><div class="timeline-date">CONTINUOUS LEARNING</div><div class="timeline-body"><h3>Independent computer science study</h3><p class="timeline-place">Brilliant · Coddy · Personal exercises</p><p>Self-directed study in algorithmic thinking, computer science theory, C, C++, Java, Git, Bash, and data structures and algorithms.</p></div></article>
+    <section class="container section" id="work">
+      <div class="section-heading"><h2>Selected directions.</h2><a href="projects.html">ALL PROJECTS ↗</a></div>
+      <div class="work-preview">
+        <article class="preview-card"><p class="project-meta">01 / SOFTWARE PROJECT</p><h3>Seibishi</h3><p>A project in my GitHub workspace. Visit the repository for its source code, documentation, current implementation, and development history.</p><a class="secondary-link" href="https://github.com/mmurrythm/seibishi" target="_blank" rel="noopener noreferrer">OPEN REPOSITORY ↗</a></article>
+        <article class="preview-card"><p class="project-meta">02 / FIELD NOTES</p><h3>The learning log.</h3><p>A home for technical explanations, working examples, diagrams, research reflections, and discoveries worth writing down.</p><a class="secondary-link" href="blogs.html">VISIT THE NOTEBOOK →</a></article>
       </div>
     </section>
-
-    <section class="section-shell content-section" id="achievements">
-      <div class="section-heading"><p class="eyebrow">05 / MILESTONES</p><h2>Achievements & recognition.</h2><p class="section-intro">A space reserved for verified accomplishments. This section will grow as awards, competition results, certificates, research outputs, and measurable milestones are added.</p></div>
-      <div class="achievement-placeholder"><span class="achievement-symbol">✳</span><div><h3>Evidence over empty claims.</h3><p>Achievements will be added here when ready. Each entry can include the date, awarding organisation, result, and a link to supporting evidence.</p></div><span class="achievement-status">UPDATING SOON</span></div>
+    <section class="container section" id="academics">
+      <div class="section-heading"><h2>Academic identity.</h2><a href="academics.html">ACADEMICS ↗</a></div>
+      <div class="academic-strip"><div><p class="project-meta">UNDERGRADUATE / BUET</p><h3>Computer Science &amp; Engineering</h3><p>Bangladesh University of Engineering and Technology · Dhaka, Bangladesh</p></div><div class="profile-links"><a href="https://www.researchgate.net/profile/Muhammed-Maruf-Ur-Rashid" target="_blank" rel="noopener noreferrer">ResearchGate ↗</a><a href="https://orcid.org/0009-0000-2438-780X" target="_blank" rel="noopener noreferrer">ORCID ↗</a><a href="https://github.com/mmurrythm" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></div>
     </section>
-
-    <section class="section-shell content-section" id="research">
-      <div class="section-heading"><p class="eyebrow">06 / RESEARCH IDENTITY</p><h2>Research & scholarly profiles.</h2><p class="section-intro">Public profiles for research interests, scholarly identity, and future academic work.</p></div>
-      <div class="profile-links">
-        <a class="profile-link" href="https://www.researchgate.net/profile/Muhammed-Maruf-Ur-Rashid" target="_blank" rel="noreferrer"><span class="profile-icon">RG</span><span><strong>ResearchGate</strong><small>Research profile and publications</small></span><span class="profile-arrow">↗</span></a>
-        <a class="profile-link" href="https://orcid.org/0009-0000-2438-780X" target="_blank" rel="noreferrer"><span class="profile-icon">iD</span><span><strong>ORCID</strong><small>0009-0000-2438-780X</small></span><span class="profile-arrow">↗</span></a>
-      </div>
-    </section>
-
-    <section class="section-shell content-section" id="trajectory">
-      <div class="section-heading"><p class="eyebrow">07 / THE TRAJECTORY</p><h2>Direction, not decoration.</h2><p class="section-intro">The next milestone is evidence: code that runs, concepts explained clearly, and projects that solve real problems.</p></div>
-      <div class="trajectory-grid">
-        <article><span class="trajectory-index">NEXT / 01</span><h3>Strengthen fundamentals</h3><p>Build reliable fluency in C/C++, data structures, algorithms, and debugging.</p></article>
-        <article><span class="trajectory-index">NEXT / 02</span><h3>Ship useful software</h3><p>Complete small projects with clear README files, tests, screenshots, and live demos.</p></article>
-        <article><span class="trajectory-index">NEXT / 03</span><h3>Make ideas visible</h3><p>Create interactive explanations that connect equations, diagrams, and working code.</p></article>
-      </div>
-    </section>
-
-    <section class="contact-band section-shell" id="contact"><div><p class="eyebrow">08 / OPEN CHANNEL</p><h2>Let’s make something<br><span class="gold-text">understandable.</span></h2><p>For engineering, software, and visual-computing conversations, find me here:</p></div><div class="contact-actions"><a class="button button-primary" href="https://github.com/mmurrythm" target="_blank" rel="noreferrer">GitHub ↗</a><a class="button button-outline" href="https://www.researchgate.net/profile/Muhammed-Maruf-Ur-Rashid" target="_blank" rel="noreferrer">Research profile ↗</a><p class="fine-print">For academic and research-related contact.</p></div></section>
   </main>
+  <footer class="container site-footer"><span>OBSERVE · MODEL · BUILD · REVISE</span><span>© <span id="year"></span> MUHAMMED MARUF-UR-RASHID</span></footer>
+  <script>
+    (() => {
+      const menuButton = document.querySelector('.menu-button');
+      const navigation = document.querySelector('.nav-links');
+      menuButton.addEventListener('click', () => {
+        const open = menuButton.getAttribute('aria-expanded') === 'true';
+        menuButton.setAttribute('aria-expanded', String(!open));
+        menuButton.textContent = open ? 'MENU +' : 'CLOSE −';
+        navigation.classList.toggle('is-open', !open);
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
 
-  <footer class="site-footer section-shell"><a class="wordmark" href="#top"><span class="wordmark-mark">R.</span><span>RYTHM<span class="wordmark-dot">/</span>LAB</span></a><p>Designed like a lab notebook. Built for iteration.</p><a href="#top">Back to top ↑</a><span class="footer-year">© <span id="year">2026</span> Rythm</span></footer>
+      const canvas = document.getElementById('circuit');
+      const ctx = canvas.getContext('2d');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let width = 0, height = 0, traces = [], raf = 0, lastFrame = 0;
+      function resize() {
+        const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+        width = window.innerWidth; height = window.innerHeight;
+        canvas.width = Math.floor(width * ratio); canvas.height = Math.floor(height * ratio);
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        const count = Math.min(width < 600 ? 13 : 28, Math.floor(width * height / 42000));
+        traces = Array.from({ length: count }, () => {
+          const horizontal = Math.random() > .5;
+          return { x: Math.random() * width, y: Math.random() * height, length: 28 + Math.random() * 90, speed: .12 + Math.random() * .28, phase: Math.random() * Math.PI * 2, horizontal };
+        });
+        draw(0);
+      }
+      function draw(time) {
+        ctx.clearRect(0, 0, width, height);
+        traces.forEach(t => {
+          const drift = reducedMotion.matches ? 0 : (time * .001 * t.speed);
+          const pulse = .25 + ((Math.sin(t.phase + drift) + 1) * .23);
+          ctx.strokeStyle = `rgba(63, 181, 237, ${pulse})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          if (t.horizontal) {
+            const x = ((t.x + drift * 18) % (width + t.length)) - t.length;
+            ctx.moveTo(x, t.y); ctx.lineTo(x + t.length, t.y);
+            ctx.lineTo(x + t.length, t.y + 12); ctx.lineTo(x + t.length + 17, t.y + 12);
+          } else {
+            const y = ((t.y + drift * 15) % (height + t.length)) - t.length;
+            ctx.moveTo(t.x, y); ctx.lineTo(t.x, y + t.length);
+            ctx.lineTo(t.x + 12, y + t.length); ctx.lineTo(t.x + 12, y + t.length + 15);
+          }
+          ctx.stroke();
+          ctx.fillStyle = `rgba(120, 224, 255, ${pulse + .12})`;
+          ctx.beginPath(); ctx.arc(t.x, t.y, 1.4, 0, Math.PI * 2); ctx.fill();
+        });
+      }
+      function animate(time) {
+        if (time - lastFrame > 45) { draw(time); lastFrame = time; }
+        if (!reducedMotion.matches) raf = requestAnimationFrame(animate);
+      }
+      function startMotion() {
+        cancelAnimationFrame(raf);
+        if (reducedMotion.matches) draw(0);
+        else raf = requestAnimationFrame(animate);
+      }
+      window.addEventListener('resize', resize, { passive: true });
+      if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', startMotion);
+      resize(); startMotion();
+    })();
+  </script>
 </body>
 </html>

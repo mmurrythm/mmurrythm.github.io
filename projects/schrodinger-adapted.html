@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="An interactive Schrödinger equation laboratory by MMURRYTHM. Explore quantum wave functions, energy eigenstates, and potential landscapes.">
+<meta name="theme-color" content="#050a12">
+<title>Schrödinger Equation Lab — MMURRYTHM</title>
+<style>
+  :root{
+    --ink:#050a12;
+    --panel:rgba(9,20,34,.88);
+    --panel-2:#0b1524;
+    --line:rgba(105,202,244,.22);
+    --text:#edf6ff;
+    --muted:#9aacc0;
+    --accent:#66dcff;
+    --accent-ink:#03101b;
+    --re:#66dcff;
+    --im:#b99aff;
+    --bad:#ff858b;
+    --violet:#b99aff;
+    --site-width:1440px;
+    --sans:"Avenir Next","Segoe UI","Helvetica Neue",Arial,sans-serif;
+    --math:"STIX Two Text","Latin Modern Roman","Cambria Math",Cambria,Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:dark;scroll-behavior:smooth;scroll-padding-top:100px}
+  body{margin:0;min-height:100vh;overflow-x:hidden;background:var(--ink);color:var(--text);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+  body:before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(ellipse at 12% 12%,rgba(0,115,190,.18),transparent 38%),radial-gradient(ellipse at 85% 42%,rgba(112,65,174,.13),transparent 42%),var(--ink)}
+  body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.2;background-image:linear-gradient(rgba(100,181,224,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(100,181,224,.14) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
+  a{color:var(--accent)}
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+  ::selection{background:var(--accent);color:#03101b}
+  .skip-link{position:fixed;z-index:100;top:10px;left:10px;padding:10px 14px;background:var(--accent);color:#04101a;transform:translateY(-150%)}
+  .skip-link:focus{transform:translateY(0)}
+  .site-header{position:sticky;top:0;z-index:50;text-align:left!important;margin:0!important;background:rgba(5,10,18,.86);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}
+  .site-nav{width:min(1160px,calc(100% - 44px));min-height:76px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .site-brand{display:flex;align-items:center;gap:11px;color:var(--text);text-decoration:none;flex-shrink:0}
+  .site-brand img{width:42px;height:42px;object-fit:cover;border:1px solid var(--line);border-radius:9px;box-shadow:0 0 24px rgba(40,157,224,.12)}
+  .site-brand strong{display:block;font-size:12px;letter-spacing:.15em;line-height:1.3}
+  .site-brand small{display:block;margin-top:4px;color:var(--muted);font:9px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
+  .site-links{display:flex;align-items:center;gap:clamp(12px,2.1vw,25px)}
+  .site-links a{color:var(--muted);text-decoration:none;font:10px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+  .site-links a:hover{color:var(--accent)}
+  .site-links a[aria-current=page]{color:var(--accent)}
+  .app{max-width:var(--site-width);margin:0 auto;padding:34px 22px 48px}
+  .site-kicker{margin:0 0 10px;color:var(--accent);font:10px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.16em;text-transform:uppercase}
+  .site-footer{width:min(1160px,calc(100% - 44px));margin:0 auto;padding:22px 0 34px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font:10px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.06em}
+  .site-footer a{color:var(--accent);text-decoration:none}
+
+  /* ---------- header ---------- */
+  .app>header{text-align:center;margin-bottom:22px;padding:clamp(28px,5vw,62px) 0 8px}
+  h1{margin:0;color:var(--accent);font:800 clamp(26px,4.2vw,46px)/1.05 var(--sans);letter-spacing:.01em}
+  .eq{margin:14px 0 0;font:italic clamp(20px,3vw,32px)/1.6 var(--math);color:#f4f3fa}
+  .eq .i{color:var(--accent)}
+  .app>header h1{background:linear-gradient(105deg,#8be8ff,#b8a4ff 60%,#f0b7ee);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .app>header .eq{font-size:clamp(20px,3vw,32px)}
+  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;line-height:1.15;margin:0 .12em}
+  .frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .12em}
+  .flow{display:flex;gap:8px;justify-content:center;align-items:stretch;flex-wrap:wrap;margin:20px auto 0;max-width:900px}
+  .flow div{flex:1 1 200px;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:9px 14px;text-align:left}
+  .flow b{display:block;font-size:13px;color:var(--accent);font-weight:700}
+  .flow span{font-size:12.5px;color:var(--muted)}
+  .flow i{align-self:center;color:var(--muted);font-style:normal}
+
+  /* ---------- layout ---------- */
+  .grid{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px;align-items:start}
+  @media (max-width:960px){.grid{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px}
+  .inputs{padding:4px 18px 18px}
+  fieldset{border:0;border-bottom:1px solid var(--line);margin:0;padding:16px 0}
+  fieldset:last-of-type{border-bottom:0}
+  legend{padding:0;font-weight:700;font-size:14px;color:var(--text);float:left;width:100%;margin-bottom:10px}
+  legend+*{clear:both}
+  label{display:block;font-size:13px;color:var(--muted);margin:0 0 4px}
+  .field{margin-bottom:10px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  input[type=text],input[type=number],select{
+    width:100%;background:var(--panel-2);color:var(--text);border:1px solid var(--line);
+    border-radius:8px;padding:8px 10px;font:inherit;font-size:14px;min-height:38px}
+  input[type=text]{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px}
+  input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .hint{font-size:12.5px;color:var(--muted);margin:6px 0 0}
+  .err{font-size:12.5px;color:var(--bad);margin:6px 0 0;min-height:1em}
+  .radio{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;cursor:pointer;color:var(--text);font-size:14px}
+  .radio input{margin-top:3px;accent-color:var(--accent)}
+  .radio small{display:block;color:var(--muted);font-size:12.5px}
+  .radio:has(input:checked){border-color:var(--accent);background:#1b1810}
+  .check{display:flex;gap:8px;align-items:center;color:var(--text);font-size:14px;margin-bottom:6px}
+  .check input{accent-color:var(--accent)}
+  button{font:inherit;font-size:14px;cursor:pointer;border-radius:9px;border:1px solid var(--line);background:var(--panel-2);color:var(--text);padding:8px 14px;min-height:38px}
+  button:hover{border-color:#3b3e55}
+  button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;width:100%;margin-top:6px}
+  button.primary:hover{filter:brightness(1.08)}
+  .row{display:flex;gap:8px}
+  .row>*{flex:1}
+
+  /* ---------- outputs ---------- */
+  .outputs{display:grid;gap:18px;min-width:0}
+  .stage{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 85%,#12101c 0%,#060608 70%)}
+  #view3d{width:100%;height:min(62vh,560px);min-height:340px;touch-action:none}
+  #view3d canvas{display:block;width:100%;height:100%}
+  .toolbar{position:absolute;top:10px;right:10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .toolbar button{background:rgba(15,16,23,.82);backdrop-filter:blur(6px);padding:6px 11px;min-height:34px;font-size:13px}
+  .legend3d{position:absolute;left:12px;bottom:10px;display:flex;gap:10px;align-items:center;font-size:12.5px;color:var(--muted);max-width:75%}
+  .wheel{flex:none;width:34px;height:34px;border-radius:50%;background:conic-gradient(from 0deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00);
+         -webkit-mask:radial-gradient(circle,transparent 8px,#000 9px);mask:radial-gradient(circle,transparent 8px,#000 9px)}
+  .below{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px}
+  @media (max-width:1100px){.below{grid-template-columns:1fr}}
+  .card{padding:14px 16px 16px;min-width:0}
+  .card h2{margin:0 0 10px;font-size:15px;font-weight:700}
+  #plot2d{width:100%;height:260px;display:block}
+  .stats{margin:8px 0 0;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{font-weight:600;color:var(--muted);text-align:left;padding:4px 6px;border-bottom:1px solid var(--line);font-size:12.5px}
+  td{padding:5px 6px;border-bottom:1px solid #1a1c28;font-variant-numeric:tabular-nums}
+  tbody tr{cursor:pointer}
+  tbody tr:hover{background:#171925}
+  tbody tr.on{background:#1b1810}
+  .bar{height:7px;border-radius:4px;background:var(--accent);min-width:1px}
+  .note{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+  .busy{opacity:.55;pointer-events:none}
+  @media(max-width:680px){
+    .site-nav{width:calc(100% - 28px);min-height:68px;gap:12px;align-items:flex-start;padding:12px 0;flex-direction:column}
+    .site-links{width:100%;gap:0;justify-content:space-between;flex-wrap:wrap}
+    .site-links a{font-size:9px;padding:4px 0}
+    .app{padding:22px 14px 34px}
+    .flow i{display:none}
+    .flow div{flex-basis:100%}
+    #view3d{height:52vh;min-height:280px}
+    .toolbar{left:8px;right:8px;top:8px}
+    .toolbar button{font-size:12px;padding:5px 8px}
+    .legend3d{max-width:92%;font-size:11px}
+    .three{grid-template-columns:1fr 1fr}
+    .site-footer{width:calc(100% - 28px)}
+  }
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to solver</a>
+<div class="site-header">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="site-brand" href="../index.html">
+      <img src="../assests/logo.png" alt="" width="42" height="42">
+      <span><strong>MMURRYTHM</strong><small>CODE · MATHEMATICS · MATTER</small></span>
+    </a>
+    <div class="site-links">
+      <a href="../index.html">HOME</a>
+      <a href="../projects.html" aria-current="page">PROJECTS</a>
+      <a href="../academics.html">ACADEMICS</a>
+      <a href="../blogs.html">BLOGS</a>
+      <a href="../more.html">MORE</a>
+    </div>
+  </nav>
+</div>
+<div class="app" id="main">
+
+  <header>
+    <p class="site-kicker">PROJECT  /  QUANTUM MECHANICS LAB</p>
+    <h1>SCHRÖDINGER EQUATION</h1>
+    <p class="eq" aria-label="i h-bar partial psi over partial t equals minus h-bar squared over 2m times second partial of psi in x, plus V psi">
+      <span class="i">i</span>ħ<span class="frac"><span>∂Ψ</span><span>∂t</span></span>
+      = −<span class="frac"><span>ħ²</span><span>2m</span></span><span class="frac"><span>∂²Ψ</span><span>∂x²</span></span> + VΨ
+    </p>
+    <div class="flow" aria-label="Pipeline">
+      <div><b>Input</b><span>Potential V(x), particle mass m, boundary conditions</span></div><i aria-hidden="true">→</i>
+      <div><b>Solver</b><span>Finite-difference Hamiltonian, exact diagonalisation, spectral time evolution</span></div><i aria-hidden="true">→</i>
+      <div><b>Output</b><span>Wave function ψ(x,t), probability density |ψ|², energy eigenvalues</span></div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- ===================== INPUT ===================== -->
+    <aside class="panel inputs" id="inputs">
+      <fieldset>
+        <legend>Potential V(x)</legend>
+        <div class="field">
+          <label for="preset">Preset</label>
+          <select id="preset"></select>
+        </div>
+        <div class="field">
+          <label for="vexpr">V(x) =</label>
+          <input type="text" id="vexpr" spellcheck="false" autocomplete="off">
+          <p class="err" id="verr" role="alert"></p>
+          <p class="hint">Use <code>x</code>, <code>+ − * / ^</code>, <code>sin cos exp abs sqrt tanh</code>, <code>step(u)</code> (1 when u ≥ 0), <code>PI</code>. Press Enter to solve.</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Particle and domain</legend>
+        <div class="two">
+          <div class="field"><label for="mass">Mass m</label><input type="number" id="mass" step="any" min="0.0001" value="1"></div>
+          <div class="field"><label for="hbar">ħ</label><input type="number" id="hbar" step="any" min="0.0001" value="1"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="L">Domain: x from −L to L</label><input type="number" id="L" step="any" min="0.5" value="8"></div>
+          <div class="field"><label for="N">Grid points</label>
+            <select id="N"><option value="100">100 (fast)</option><option value="200" selected>200</option><option value="300">300 (fine)</option></select>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Boundary conditions</legend>
+        <label class="radio"><input type="radio" name="bc" value="dirichlet" checked><span>Hard walls<small>ψ = 0 at both ends</small></span></label>
+        <label class="radio"><input type="radio" name="bc" value="neumann"><span>Reflecting<small>dψ/dx = 0 at both ends</small></span></label>
+        <label class="radio"><input type="radio" name="bc" value="periodic"><span>Periodic<small>right end wraps to the left end</small></span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Initial state ψ(x, 0)</legend>
+        <div class="field">
+          <label for="initType">Shape</label>
+          <select id="initType">
+            <option value="gauss">Gaussian wave packet</option>
+            <option value="eigen">Single energy eigenstate</option>
+            <option value="super">Superposition of two neighbouring eigenstates</option>
+          </select>
+        </div>
+        <div id="gaussFields" class="three">
+          <div class="field"><label for="x0">Centre x₀</label><input type="number" id="x0" step="any" value="-3"></div>
+          <div class="field"><label for="sigma">Width σ</label><input type="number" id="sigma" step="any" min="0.01" value="0.7"></div>
+          <div class="field"><label for="k0">Momentum k₀</label><input type="number" id="k0" step="any" value="0"></div>
+        </div>
+        <div id="eigenFields" class="field" hidden>
+          <label for="nState">State number n (1 = ground state)</label>
+          <input type="number" id="nState" step="1" min="1" value="1">
+          <p class="hint">You can also click a row of the eigenvalue table.</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Display</legend>
+        <div class="field">
+          <label for="viewMode">3D view</label>
+          <select id="viewMode">
+            <option value="surface">Space–time surface (rainbow sheet)</option>
+            <option value="ribbon">Complex ribbon (Re ψ, Im ψ)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="heightMode">Surface height</label>
+          <select id="heightMode"><option value="den">Probability density |ψ|²</option><option value="amp">Amplitude |ψ|</option></select>
+        </div>
+        <div class="field">
+          <label for="win">Time shown on the surface</label>
+          <div class="row"><input type="number" id="win" step="any" min="0.01" value="6.3"><button type="button" id="autoWin">Auto</button></div>
+        </div>
+        <div class="field">
+          <label for="speed">Speed <output id="speedOut">1×</output></label>
+          <input type="range" id="speed" min="-1" max="1" step="0.05" value="0">
+        </div>
+        <label class="check"><input type="checkbox" id="rotate"> Rotate the camera slowly</label>
+      </fieldset>
+
+      <button class="primary" id="solveBtn" type="button">Solve</button>
+      <p class="note" id="solveInfo"></p>
+    </aside>
+
+    <!-- ===================== OUTPUT ===================== -->
+    <section class="outputs">
+      <div class="panel stage">
+        <div id="view3d"></div>
+        <div class="toolbar">
+          <button type="button" id="playBtn">Pause</button>
+          <button type="button" id="resetBtn">Restart</button>
+          <button type="button" id="pngBtn">Save PNG</button>
+        </div>
+        <div class="legend3d"><span class="wheel" aria-hidden="true"></span><span id="legendText"></span></div>
+      </div>
+
+      <div class="below">
+        <div class="panel card">
+          <h2>Probability density |ψ(x, t)|² on the potential</h2>
+          <canvas id="plot2d" aria-label="Plot of the potential, energy levels and probability density"></canvas>
+          <p class="stats" id="stats"></p>
+        </div>
+        <div class="panel card">
+          <h2>Energy eigenvalues Eₙ</h2>
+          <table>
+            <thead><tr><th>n</th><th>Eₙ</th><th>Share of the state</th></tr></thead>
+            <tbody id="eigBody"></tbody>
+          </table>
+          <p class="note">Lowest ten shown. Click a row to start from that eigenstate. Units: ħ and m as entered; with ħ = m = 1 energy is in units of ħ²/(m·length²).</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+'use strict';
+
+/* =====================================================================
+   CORE: numerical solver (no DOM access)
+   ===================================================================== */
+// <CORE>
+// Symmetric eigenproblem: Householder tridiagonalisation + implicit QL
+// (the classic EISPACK tred2/tql2 pair).
+function tred2(V, d, e, n) {
+  for (let j = 0; j < n; j++) d[j] = V[n - 1][j];
+  for (let i = n - 1; i > 0; i--) {
+    let scale = 0, h = 0;
+    for (let k = 0; k < i; k++) scale += Math.abs(d[k]);
+    if (scale === 0) {
+      e[i] = d[i - 1];
+      for (let j = 0; j < i; j++) { d[j] = V[i - 1][j]; V[i][j] = 0; V[j][i] = 0; }
+    } else {
+      for (let k = 0; k < i; k++) { d[k] /= scale; h += d[k] * d[k]; }
+      let f = d[i - 1];
+      let g = Math.sqrt(h);
+      if (f > 0) g = -g;
+      e[i] = scale * g;
+      h -= f * g;
+      d[i - 1] = f - g;
+      for (let j = 0; j < i; j++) e[j] = 0;
+      for (let j = 0; j < i; j++) {
+        f = d[j];
+        V[j][i] = f;
+        g = e[j] + V[j][j] * f;
+        for (let k = j + 1; k <= i - 1; k++) { g += V[k][j] * d[k]; e[k] += V[k][j] * f; }
+        e[j] = g;
+      }
+      f = 0;
+      for (let j = 0; j < i; j++) { e[j] /= h; f += e[j] * d[j]; }
+      const hh = f / (h + h);
+      for (let j = 0; j < i; j++) e[j] -= hh * d[j];
+      for (let j = 0; j < i; j++) {
+        f = d[j]; g = e[j];
+        for (let k = j; k <= i - 1; k++) V[k][j] -= (f * e[k] + g * d[k]);
+        d[j] = V[i - 1][j];
+        V[i][j] = 0;
+      }
+    }
+    d[i] = h;
+  }
+  for (let i = 0; i < n - 1; i++) {
+    V[n - 1][i] = V[i][i];
+    V[i][i] = 1;
+    const h = d[i + 1];
+    if (h !== 0) {
+      for (let k = 0; k <= i; k++) d[k] = V[k][i + 1] / h;
+      for (let j = 0; j <= i; j++) {
+        let g = 0;
+        for (let k = 0; k <= i; k++) g += V[k][i + 1] * V[k][j];
+        for (let k = 0; k <= i; k++) V[k][j] -= g * d[k];
+      }
+    }
+    for (let k = 0; k <= i; k++) V[k][i + 1] = 0;
+  }
+  for (let j = 0; j < n; j++) { d[j] = V[n - 1][j]; V[n - 1][j] = 0; }
+  V[n - 1][n - 1] = 1;
+  e[0] = 0;
+}
+
+function tql2(V, d, e, n) {
+  for (let i = 1; i < n; i++) e[i - 1] = e[i];
+  e[n - 1] = 0;
+  let f = 0, tst1 = 0;
+  const eps = Math.pow(2, -52);
+  for (let l = 0; l < n; l++) {
+    tst1 = Math.max(tst1, Math.abs(d[l]) + Math.abs(e[l]));
+    let m = l;
+    while (m < n) { if (Math.abs(e[m]) <= eps * tst1) break; m++; }
+    if (m > l) {
+      let iter = 0;
+      do {
+        iter++;
+        let g = d[l];
+        let p = (d[l + 1] - g) / (2 * e[l]);
+        let r = Math.hypot(p, 1);
+        if (p < 0) r = -r;
+        d[l] = e[l] / (p + r);
+        d[l + 1] = e[l] * (p + r);
+        const dl1 = d[l + 1];
+        let h = g - d[l];
+        for (let i = l + 2; i < n; i++) d[i] -= h;
+        f += h;
+        p = d[m];
+        let c = 1, c2 = c, c3 = c;
+        const el1 = e[l + 1];
+        let s = 0, s2 = 0;
+        for (let i = m - 1; i >= l; i--) {
+          c3 = c2; c2 = c; s2 = s;
+          g = c * e[i];
+          h = c * p;
+          r = Math.hypot(p, e[i]);
+          e[i + 1] = s * r;
+          s = e[i] / r;
+          c = p / r;
+          p = c * d[i] - s * g;
+          d[i + 1] = h + s * (c * g + s * d[i]);
+          for (let k = 0; k < n; k++) {
+            h = V[k][i + 1];
+            V[k][i + 1] = s * V[k][i] + c * h;
+            V[k][i] = c * V[k][i] - s * h;
+          }
+        }
+        p = -s * s2 * c3 * el1 * e[l] / dl1;
+        e[l] = s * p;
+        d[l] = c * p;
+      } while (Math.abs(e[l]) > eps * tst1 && iter < 80);
+    }
+    d[l] = d[l] + f;
+    e[l] = 0;
+  }
+  for (let i = 0; i < n - 1; i++) {
+    let k = i, p = d[i];
+    for (let j = i + 1; j < n; j++) if (d[j] < p) { k = j; p = d[j]; }
+    if (k !== i) {
+      d[k] = d[i]; d[i] = p;
+      for (let j = 0; j < n; j++) { const t = V[j][i]; V[j][i] = V[j][k]; V[j][k] = t; }
+    }
+  }
+}
+
+function eigSym(H, n) {
+  const V = H.map(r => Float64Array.from(r));
+  const d = new Float64Array(n), e = new Float64Array(n);
+  tred2(V, d, e, n);
+  tql2(V, d, e, n);
+  return { values: d, vectors: V };       // column k of `vectors` is the eigenvector of values[k]
+}
+
+/* ---- V(x) expression -> function ---- */
+const ALLOWED_NAMES = new Set(['x','step','PI','E','sin','cos','tan','exp','log','abs','sqrt','pow','tanh','sinh','cosh','min','max','atan','sign','floor']);
+
+function compilePotential(src) {
+  let s = String(src).trim();
+  if (!s) throw new Error('Enter an expression for V(x).');
+  if (!/^[0-9A-Za-z_+\-*/^().,\s<>=?:&|!%]*$/.test(s)) throw new Error('V(x) contains a character that is not allowed.');
+  const noNumbers = s.replace(/(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?/g, '0');
+  for (const id of (noNumbers.match(/[A-Za-z_]\w*/g) || [])) {
+    if (!ALLOWED_NAMES.has(id)) throw new Error('Unknown name "' + id + '" in V(x).');
+  }
+  // a^b -> pow(a,b) for simple operands, so that -x^2 behaves as expected
+  const powRe = /((?<![\w.])\([^()]*\)|[A-Za-z0-9_.]+)\s*\^\s*(-?[A-Za-z0-9_.]+|\([^()]*\))/;
+  for (let i = 0; i < 12 && powRe.test(s); i++) s = s.replace(powRe, 'pow($1,$2)');
+  s = s.replace(/\^/g, '**');
+  const step = u => (u >= 0 ? 1 : 0);
+  let fn;
+  try { fn = new Function('x', 'step', 'with (Math) { return (' + s + '); }'); }
+  catch (err) { throw new Error('Could not read V(x). Check brackets and operators.'); }
+  const f = x => { const v = fn(x, step); return Number.isFinite(v) ? Math.max(-1e5, Math.min(1e5, v)) : 1e5; };
+  f(0.5);
+  return f;
+}
+
+/* ---- build and diagonalise H ---- */
+function buildSystem(p) {
+  const { m, hbar, L, N, bc } = p;
+  const x = new Float64Array(N);
+  let dx;
+  if (bc === 'dirichlet') { dx = 2 * L / (N + 1); for (let j = 0; j < N; j++) x[j] = -L + (j + 1) * dx; }
+  else if (bc === 'neumann') { dx = 2 * L / N; for (let j = 0; j < N; j++) x[j] = -L + (j + 0.5) * dx; }
+  else { dx = 2 * L / N; for (let j = 0; j < N; j++) x[j] = -L + j * dx; }
+  const Vx = Float64Array.from(x, p.V);
+  const t = hbar * hbar / (2 * m * dx * dx);
+  const H = Array.from({ length: N }, () => new Float64Array(N));
+  for (let j = 0; j < N; j++) {
+    H[j][j] = 2 * t + Vx[j];
+    if (j < N - 1) { H[j][j + 1] = -t; H[j + 1][j] = -t; }
+  }
+  if (bc === 'neumann') { H[0][0] -= t; H[N - 1][N - 1] -= t; }
+  if (bc === 'periodic' && N > 2) { H[0][N - 1] -= t; H[N - 1][0] -= t; }
+  const { values, vectors } = eigSym(H, N);
+  const s = 1 / Math.sqrt(dx);              // so that sum |phi|^2 dx = 1
+  const phi = [];
+  for (let n = 0; n < N; n++) {
+    const col = new Float64Array(N);
+    for (let j = 0; j < N; j++) col[j] = vectors[j][n] * s;
+    phi.push(col);
+  }
+  return { N, L, dx, x, Vx, E: values, phi, m, hbar, bc };
+}
+
+/* ---- initial state expanded in eigenstates ---- */
+function makeState(sys, init) {
+  const N = sys.N, cr = new Float64Array(N), ci = new Float64Array(N);
+  if (init.type === 'eigen') {
+    cr[Math.min(N, Math.max(1, init.n)) - 1] = 1;
+  } else if (init.type === 'super') {
+    const n0 = Math.min(N - 1, Math.max(1, init.n)) - 1;
+    cr[n0] = Math.SQRT1_2; cr[n0 + 1] = Math.SQRT1_2;
+  } else {
+    const pr = new Float64Array(N), pi = new Float64Array(N);
+    let norm = 0;
+    for (let j = 0; j < N; j++) {
+      const dxj = sys.x[j] - init.x0;
+      const a = Math.exp(-dxj * dxj / (4 * init.sigma * init.sigma));
+      pr[j] = a * Math.cos(init.k0 * sys.x[j]);
+      pi[j] = a * Math.sin(init.k0 * sys.x[j]);
+      norm += (pr[j] * pr[j] + pi[j] * pi[j]) * sys.dx;
+    }
+    if (!(norm > 1e-14)) throw new Error('The wave packet lies outside the domain. Move x₀ inside −L … L.');
+    const inv = 1 / Math.sqrt(norm);
+    for (let n = 0; n < N; n++) {
+      const ph = sys.phi[n];
+      let a = 0, b = 0;
+      for (let j = 0; j < N; j++) { a += ph[j] * pr[j]; b += ph[j] * pi[j]; }
+      cr[n] = a * sys.dx * inv; ci[n] = b * sys.dx * inv;
+    }
+  }
+  const w = Float64Array.from(cr, (v, n) => v * v + ci[n] * ci[n]);
+  const order = Array.from({ length: N }, (_, i) => i).sort((a, b) => w[b] - w[a]);
+  const modes = [];
+  let acc = 0;
+  for (const n of order) {
+    if (modes.length >= 160 || acc >= 1 - 1e-10) break;
+    modes.push({ n, E: sys.E[n], cr: cr[n], ci: ci[n], phi: sys.phi[n] });
+    acc += w[n];
+  }
+  let Em = 0, E2 = 0;
+  for (let n = 0; n < N; n++) { Em += w[n] * sys.E[n]; E2 += w[n] * sys.E[n] * sys.E[n]; }
+  return { weights: w, modes, Emean: Em, Estd: Math.sqrt(Math.max(0, E2 - Em * Em)) };
+}
+
+/* ---- exact time evolution: psi(x,t) = sum c_n phi_n(x) exp(-i E_n t / hbar) ---- */
+function evolve(state, sys, t, idx, re, im) {
+  const K = idx.length;
+  re.fill(0, 0, K); im.fill(0, 0, K);
+  for (const md of state.modes) {
+    const th = -md.E * t / sys.hbar, c = Math.cos(th), s = Math.sin(th);
+    const ar = md.cr * c - md.ci * s, ai = md.cr * s + md.ci * c, ph = md.phi;
+    for (let k = 0; k < K; k++) { const v = ph[idx[k]]; re[k] += ar * v; im[k] += ai * v; }
+  }
+}
+// </CORE>
+
+/* =====================================================================
+   UI + 3D
+   ===================================================================== */
+(function () {
+  const $ = id => document.getElementById(id);
+  const TWO_PI = Math.PI * 2;
+  const num = id => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : 0; };
+
+  const PRESETS = {
+    harmonic: { label: 'Harmonic oscillator', V: '0.5*x^2', L: 8, bc: 'dirichlet', init: { type: 'gauss', x0: -3, sigma: 0.71, k0: 0 }, win: 6.3 },
+    well:     { label: 'Infinite square well', V: '0', L: 4, bc: 'dirichlet', init: { type: 'gauss', x0: -2, sigma: 0.5, k0: 6 }, win: 4 },
+    finite:   { label: 'Finite square well', V: '-10*step(2-abs(x))', L: 8, bc: 'dirichlet', init: { type: 'gauss', x0: -0.8, sigma: 0.8, k0: 0 }, win: 3 },
+    double:   { label: 'Double well (tunnelling between wells)', V: '0.05*(x^2-4)^2', L: 6, bc: 'dirichlet', init: { type: 'gauss', x0: -2, sigma: 0.55, k0: 0 }, win: 20 },
+    barrier:  { label: 'Barrier (tunnelling through)', V: '8*step(0.5-abs(x))', L: 10, bc: 'dirichlet', init: { type: 'gauss', x0: -5, sigma: 0.8, k0: 3 }, win: 8 },
+    step:     { label: 'Potential step', V: '3*step(x)', L: 10, bc: 'dirichlet', init: { type: 'gauss', x0: -4, sigma: 1, k0: 3 }, win: 8 },
+    lattice:  { label: 'Periodic lattice', V: '-3*cos(PI*x)', L: 8, bc: 'periodic', init: { type: 'gauss', x0: -3, sigma: 1.5, k0: 1 }, win: 10 },
+    coulomb:  { label: 'Softened Coulomb well', V: '-4/sqrt(x^2+1)', L: 14, bc: 'dirichlet', init: { type: 'gauss', x0: 3, sigma: 1, k0: 0 }, win: 12 },
+    custom:   { label: 'Custom (type your own V(x))' }
+  };
+
+  let sys = null, state = null, plot = null, scaleDen = 1;
+  let tSim = 0, playing = !window.matchMedia('(prefers-reduced-motion: reduce)').matches, dirty = true;
+  let view = 'surface';
+
+  /* ---------------- preset menu ---------------- */
+  const presetSel = $('preset');
+  Object.keys(PRESETS).forEach(k => { const o = document.createElement('option'); o.value = k; o.textContent = PRESETS[k].label; presetSel.appendChild(o); });
+
+  function applyPreset(key) {
+    const p = PRESETS[key];
+    if (!p || key === 'custom') return;
+    $('vexpr').value = p.V; $('L').value = p.L;
+    document.querySelector('input[name=bc][value=' + p.bc + ']').checked = true;
+    $('initType').value = p.init.type;
+    $('x0').value = p.init.x0; $('sigma').value = p.init.sigma; $('k0').value = p.init.k0;
+    $('win').value = p.win;
+    syncInitFields();
+  }
+  function syncInitFields() {
+    const t = $('initType').value;
+    $('gaussFields').hidden = t !== 'gauss';
+    $('eigenFields').hidden = t === 'gauss';
+    $('eigenFields').querySelector('label').textContent = t === 'super' ? 'Lower state n (superposes n and n + 1)' : 'State number n (1 = ground state)';
+  }
+
+  /* ---------------- solve ---------------- */
+  function solveAll() {
+    $('verr').textContent = '';
+    let Vf;
+    try { Vf = compilePotential($('vexpr').value); }
+    catch (e) { $('verr').textContent = e.message; return; }
+    const m = num('mass'), hbar = num('hbar'), L = num('L'), N = parseInt($('N').value, 10);
+    if (!(m > 0) || !(hbar > 0) || !(L > 0)) { $('verr').textContent = 'Mass, ħ and L must be positive.'; return; }
+    const bc = document.querySelector('input[name=bc]:checked').value;
+    const t0 = performance.now();
+    try { sys = buildSystem({ V: Vf, m, hbar, L, N, bc }); }
+    catch (e) { $('verr').textContent = 'The solver failed: ' + e.message; return; }
+    $('solveInfo').textContent = 'Diagonalised a ' + N + '×' + N + ' Hamiltonian in ' + Math.round(performance.now() - t0) + ' ms.';
+    rebuild3D();
+    prepareState(true);
+  }
+
+  function readInit() {
+    return { type: $('initType').value, x0: num('x0'), sigma: Math.max(1e-3, num('sigma')), k0: num('k0'), n: Math.max(1, Math.round(num('nState'))) };
+  }
+
+  function prepareState(resetTime) {
+    if (!sys) return;
+    try { state = makeState(sys, readInit()); $('verr').textContent = ''; }
+    catch (e) { $('verr').textContent = e.message; return; }
+    computeScales();
+    buildEigTable();
+    if (resetTime) tSim = 0;
+    dirty = true;
+  }
+
+  function winVal() { const w = num('win'); return w > 0 ? w : 1; }
+  function autoWindow() {
+    const s = state.Estd > 1e-6 ? state.Estd : Math.max(1e-3, sys.E[1] - sys.E[0]);
+    return Math.min(400, Math.max(0.2, TWO_PI * 1.5 / s));
+  }
+
+  // Fixed vertical scales and plot ranges so the picture doesn't flicker
+  function computeScales() {
+    const N = sys.N, idx = Int32Array.from({ length: N }, (_, i) => i), re = new Float64Array(N), im = new Float64Array(N);
+    let mx = 0; const W = winVal();
+    for (let s = 0; s <= 48; s++) {
+      evolve(state, sys, s * 2 * W / 48, idx, re, im);
+      for (let j = 0; j < N; j++) { const d = re[j] * re[j] + im[j] * im[j]; if (d > mx) mx = d; }
+    }
+    scaleDen = mx > 0 ? mx : 1;
+    let vmin = Infinity, vmax = -Infinity;
+    for (let j = 0; j < N; j++) { vmin = Math.min(vmin, sys.Vx[j]); vmax = Math.max(vmax, sys.Vx[j]); }
+    const k = Math.min(9, N - 1);
+    let top = vmin + 1.3 * (sys.E[k] - vmin);
+    top = Math.max(top, state.Emean + 3 * state.Estd, sys.E[0] + 2 * (sys.E[1] - sys.E[0]));
+    if (top - vmin < 1e-6) top = vmin + 1;
+    plot = { vmin, vmax, ymin: vmin - 0.08 * (top - vmin), ymax: top, top };
+    updatePotentialLine();
+  }
+
+  /* ---------------- eigenvalue table ---------------- */
+  function buildEigTable() {
+    const body = $('eigBody'); body.textContent = '';
+    const K = Math.min(10, sys.N);
+    const n0 = $('initType').value === 'gauss' ? -1 : Math.max(1, Math.round(num('nState'))) - 1;
+    for (let n = 0; n < K; n++) {
+      const tr = document.createElement('tr'); tr.dataset.n = n + 1;
+      if (n === n0 || ($('initType').value === 'super' && n === n0 + 1)) tr.className = 'on';
+      const w = state.weights[n];
+      tr.innerHTML = '<td>' + (n + 1) + '</td><td>' + fmt(sys.E[n]) + '</td><td><div class="bar" style="width:' + Math.max(1, Math.round(w * 100)) + '%" title="' + (w * 100).toFixed(1) + '%"></div></td>';
+      body.appendChild(tr);
+    }
+  }
+  $('eigBody').addEventListener('click', e => {
+    const tr = e.target.closest('tr'); if (!tr) return;
+    $('initType').value = 'eigen'; $('nState').value = tr.dataset.n; syncInitFields();
+    prepareState(true);
+  });
+  const fmt = v => (Math.abs(v) >= 1e4 || (Math.abs(v) < 1e-3 && v !== 0)) ? v.toExponential(3) : v.toFixed(4);
+
+  /* ---------------- 3D scene ---------------- */
+  const W3 = 13, H3 = 3, NT = 80, Z_FRONT = 3, DEPTH = 7;
+  let renderer, scene, camera, controls, grid, axisLine;
+  let surf = null, rib = null, vLine = null, cols = null, rowRe, rowIm;
+  const ok3d = typeof THREE !== 'undefined';
+
+  function init3D() {
+    const host = $('view3d');
+    if (!ok3d) { host.innerHTML = '<p class="err" style="padding:20px">three.js could not be loaded (check your connection). The 2D plot and eigenvalues still work.</p>'; return; }
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setClearColor(0x060608, 1);
+    host.appendChild(renderer.domElement);
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
+    if (THREE.OrbitControls) {
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true; controls.dampingFactor = 0.08; controls.autoRotateSpeed = 0.8;
+    }
+    scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+    const dl = new THREE.DirectionalLight(0xffffff, 0.7); dl.position.set(-4, 9, 8); scene.add(dl);
+    grid = new THREE.GridHelper(W3 + 1, 14, 0x2b2e42, 0x171826); scene.add(grid);
+    axisLine = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-W3 / 2, 0, 0), new THREE.Vector3(W3 / 2, 0, 0)]),
+      new THREE.LineBasicMaterial({ color: 0x6a6e8c }));
+    scene.add(axisLine);
+    const ro = new ResizeObserver(resize3D); ro.observe(host);
+    resize3D();
+    setViewMode(true);
+  }
+  function resize3D() {
+    if (!renderer) return;
+    const host = $('view3d'), w = host.clientWidth, h = host.clientHeight;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+
+  function hslTo(h, s, l, out, o) {
+    const a = s * Math.min(l, 1 - l);
+    for (let c = 0; c < 3; c++) {
+      const n = c === 0 ? 0 : c === 1 ? 8 : 4, k = (n + h * 12) % 12;
+      out[o + c] = l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+    }
+  }
+
+  function rebuild3D() {
+    if (!ok3d || !sys) return;
+    const N = sys.N, stride = N > 220 ? 2 : 1;
+    cols = Int32Array.from({ length: Math.ceil(N / stride) }, (_, i) => i * stride);
+    rowRe = new Float64Array(cols.length); rowIm = new Float64Array(cols.length);
+    const nx = cols.length, xs = jj => -W3 / 2 + (sys.x[cols[jj]] + sys.L) / (2 * sys.L) * W3;
+
+    // surface
+    if (surf) { scene.remove(surf.mesh); surf.mesh.geometry.dispose(); }
+    {
+      const geo = new THREE.BufferGeometry();
+      const pos = new Float32Array(nx * NT * 3), col = new Float32Array(nx * NT * 3);
+      for (let i = 0; i < NT; i++) for (let jj = 0; jj < nx; jj++) {
+        const k = (i * nx + jj) * 3; pos[k] = xs(jj); pos[k + 2] = Z_FRONT - i * DEPTH / (NT - 1);
+      }
+      const idx = [];
+      for (let i = 0; i < NT - 1; i++) for (let jj = 0; jj < nx - 1; jj++) {
+        const a = i * nx + jj, b = a + 1, c = a + nx, d = c + 1; idx.push(a, b, c, b, d, c);
+      }
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      geo.setIndex(idx);
+      const mesh = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({ vertexColors: true, side: THREE.DoubleSide, shininess: 45, specular: 0x333333 }));
+      scene.add(mesh); surf = { mesh, nx };
+    }
+    // ribbon
+    if (rib) { scene.remove(rib.group); rib.group.traverse(o => o.geometry && o.geometry.dispose()); }
+    {
+      const group = new THREE.Group();
+      const geo = new THREE.BufferGeometry();
+      const pos = new Float32Array(nx * 2 * 3), col = new Float32Array(nx * 2 * 3);
+      for (let jj = 0; jj < nx; jj++) { pos[(2 * jj) * 3] = xs(jj); pos[(2 * jj + 1) * 3] = xs(jj); }
+      const idx = [];
+      for (let jj = 0; jj < nx - 1; jj++) { const a = 2 * jj, b = a + 1, c = a + 2, d = a + 3; idx.push(a, b, c, b, d, c); }
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      geo.setIndex(idx);
+      const sheet = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide, transparent: true, opacity: 0.92 }));
+      const lg = new THREE.BufferGeometry();
+      lg.setAttribute('position', new THREE.BufferAttribute(new Float32Array(nx * 3), 3));
+      lg.setAttribute('color', new THREE.BufferAttribute(new Float32Array(nx * 3), 3));
+      const line = new THREE.Line(lg, new THREE.LineBasicMaterial({ vertexColors: true }));
+      group.add(sheet); group.add(line); scene.add(group);
+      rib = { group, sheet, line, nx };
+    }
+    // potential line
+    if (vLine) { scene.remove(vLine); vLine.geometry.dispose(); }
+    {
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(nx * 3), 3));
+      vLine = new THREE.Line(g, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75 }));
+      scene.add(vLine);
+    }
+    setViewMode(false);
+  }
+
+  function updatePotentialLine() {
+    if (!vLine || !plot) return;
+    const p = vLine.geometry.attributes.position.array, nx = cols.length;
+    for (let jj = 0; jj < nx; jj++) {
+      const v = (sys.Vx[cols[jj]] - plot.vmin) / (plot.top - plot.vmin);
+      p[jj * 3] = -W3 / 2 + (sys.x[cols[jj]] + sys.L) / (2 * sys.L) * W3;
+      p[jj * 3 + 1] = Math.max(0, Math.min(1.05, v)) * 2.8;
+      p[jj * 3 + 2] = 0;
+    }
+    vLine.geometry.attributes.position.needsUpdate = true;
+  }
+
+  function setViewMode(resetCamera) {
+    if (!ok3d) return;
+    view = $('viewMode').value;
+    const isSurf = view === 'surface';
+    if (surf) surf.mesh.visible = isSurf;
+    if (rib) rib.group.visible = !isSurf;
+    axisLine.visible = !isSurf;
+    grid.position.y = isSurf ? 0 : -1.6;
+    if (vLine) { vLine.position.set(0, isSurf ? 0 : -1.4, isSurf ? Z_FRONT + 0.7 : -3.4); }
+    $('heightMode').disabled = !isSurf; $('win').disabled = !isSurf; $('autoWin').disabled = !isSurf;
+    $('legendText').textContent = isSurf
+      ? 'Left–right: x. Front to back: now to the past. Height: probability. Colour: phase of ψ. White line: V(x).'
+      : 'Along the axis: x. Up: Re ψ. Depth: Im ψ. Colour: phase of ψ. White line: V(x).';
+    if (resetCamera) {
+      if (isSurf) { camera.position.set(0, 5.2, 12); controls && controls.target.set(0, 0.9, 0); }
+      else { camera.position.set(-7.5, 3.2, 9); controls && controls.target.set(0, 0, 0); }
+      controls && controls.update();
+    }
+    updatePotentialLine();
+    dirty = true;
+  }
+
+  function updateSurface() {
+    const nx = surf.nx, geo = surf.mesh.geometry;
+    const pos = geo.attributes.position.array, col = geo.attributes.color.array;
+    const useDen = $('heightMode').value === 'den', W = winVal(), rowDt = W / (NT - 1), rgb = [0, 0, 0];
+    for (let i = 0; i < NT; i++) {
+      evolve(state, sys, tSim - i * rowDt, cols, rowRe, rowIm);
+      const fade = 1 - 0.92 * Math.pow(i / (NT - 1), 1.1);
+      for (let jj = 0; jj < nx; jj++) {
+        const r = rowRe[jj], m = rowIm[jj], rel = (r * r + m * m) / scaleDen, k = i * nx + jj;
+        pos[k * 3 + 1] = Math.min(1.7, useDen ? rel : Math.sqrt(rel)) * H3;
+        const hue = (Math.atan2(m, r) / TWO_PI + 1) % 1;
+        const b = 0.16 + 0.84 * Math.min(1, Math.pow(rel, 0.3));
+        hslTo(hue, 1, 0.55 * b * fade, rgb, 0);
+        col[k * 3] = rgb[0]; col[k * 3 + 1] = rgb[1]; col[k * 3 + 2] = rgb[2];
+      }
+    }
+    geo.attributes.position.needsUpdate = true; geo.attributes.color.needsUpdate = true;
+    geo.computeVertexNormals();
+  }
+
+  function updateRibbon(re, im) {
+    // uses the current-time wave function sampled on `cols`
+    const nx = rib.nx, sc = 1.5 / Math.sqrt(scaleDen), rgb = [0, 0, 0];
+    const sp = rib.sheet.geometry.attributes.position.array, sc_ = rib.sheet.geometry.attributes.color.array;
+    const lp = rib.line.geometry.attributes.position.array, lc = rib.line.geometry.attributes.color.array;
+    for (let jj = 0; jj < nx; jj++) {
+      const r = re[cols[jj]], m = im[cols[jj]], hue = (Math.atan2(m, r) / TWO_PI + 1) % 1;
+      const y = r * sc, z = m * sc;
+      sp[(2 * jj) * 3 + 1] = 0; sp[(2 * jj) * 3 + 2] = 0;
+      sp[(2 * jj + 1) * 3 + 1] = y; sp[(2 * jj + 1) * 3 + 2] = z;
+      lp[jj * 3] = sp[(2 * jj + 1) * 3]; lp[jj * 3 + 1] = y; lp[jj * 3 + 2] = z;
+      hslTo(hue, 1, 0.16, rgb, 0); sc_[(2 * jj) * 3] = rgb[0]; sc_[(2 * jj) * 3 + 1] = rgb[1]; sc_[(2 * jj) * 3 + 2] = rgb[2];
+      hslTo(hue, 1, 0.58, rgb, 0); sc_[(2 * jj + 1) * 3] = rgb[0]; sc_[(2 * jj + 1) * 3 + 1] = rgb[1]; sc_[(2 * jj + 1) * 3 + 2] = rgb[2];
+      hslTo(hue, 1, 0.68, rgb, 0); lc[jj * 3] = rgb[0]; lc[jj * 3 + 1] = rgb[1]; lc[jj * 3 + 2] = rgb[2];
+    }
+    for (const a of [rib.sheet.geometry.attributes.position, rib.sheet.geometry.attributes.color, rib.line.geometry.attributes.position, rib.line.geometry.attributes.color]) a.needsUpdate = true;
+  }
+
+  /* ---------------- 2D plot + stats ---------------- */
+  function draw2D(re, im) {
+    const cv = $('plot2d'), dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
+    if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+    const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, h);
+    const pl = 46, pr = 10, pt = 10, pb = 24, L = sys.L;
+    const X = x => pl + (x + L) / (2 * L) * (w - pl - pr);
+    const Y = e => h - pb - (e - plot.ymin) / (plot.ymax - plot.ymin) * (h - pt - pb);
+    g.font = '11.5px ' + getComputedStyle(document.body).fontFamily; g.fillStyle = '#8d90a4'; g.strokeStyle = '#262836'; g.lineWidth = 1;
+    g.beginPath(); g.moveTo(pl, pt); g.lineTo(pl, h - pb); g.lineTo(w - pr, h - pb); g.stroke();
+    g.textAlign = 'center'; g.textBaseline = 'top';
+    [-L, 0, L].forEach(v => g.fillText(String(+v.toFixed(2)), X(v), h - pb + 5));
+    g.textAlign = 'right'; g.textBaseline = 'middle';
+    g.fillText(fmt2(plot.ymax), pl - 6, pt + 4); g.fillText(fmt2(plot.ymin), pl - 6, h - pb);
+    g.save(); g.beginPath(); g.rect(pl, pt, w - pl - pr, h - pt - pb); g.clip();
+    // energy levels
+    g.strokeStyle = 'rgba(141,144,164,.28)'; g.setLineDash([4, 4]);
+    for (let n = 0, c = 0; n < sys.N && c < 24; n++) { const E = sys.E[n]; if (E > plot.ymax) break; if (E < plot.ymin) continue; c++; g.beginPath(); g.moveTo(pl, Y(E)); g.lineTo(w - pr, Y(E)); g.stroke(); }
+    g.setLineDash([]);
+    // potential
+    g.strokeStyle = '#d9d9e8'; g.lineWidth = 1.6; g.beginPath();
+    for (let j = 0; j < sys.N; j++) { const px = X(sys.x[j]), py = Y(sys.Vx[j]); j ? g.lineTo(px, py) : g.moveTo(px, py); }
+    g.stroke();
+    // psi around <E>
+    const base = Y(state.Emean), amp = 0.3 * (h - pt - pb) / scaleDen, ampW = 0.3 * (h - pt - pb) / Math.sqrt(scaleDen);
+    for (const [arr, colr] of [[re, '#5fd7ff'], [im, '#ff6fd8']]) {
+      g.strokeStyle = colr; g.globalAlpha = .75; g.lineWidth = 1; g.beginPath();
+      for (let j = 0; j < sys.N; j++) { const px = X(sys.x[j]), py = base - arr[j] * ampW; j ? g.lineTo(px, py) : g.moveTo(px, py); }
+      g.stroke();
+    }
+    g.globalAlpha = 1;
+    g.beginPath(); g.moveTo(X(sys.x[0]), base);
+    for (let j = 0; j < sys.N; j++) g.lineTo(X(sys.x[j]), base - (re[j] * re[j] + im[j] * im[j]) * amp);
+    g.lineTo(X(sys.x[sys.N - 1]), base); g.closePath();
+    g.fillStyle = 'rgba(255,200,87,.30)'; g.fill();
+    g.strokeStyle = '#ffc857'; g.lineWidth = 1.8; g.beginPath();
+    for (let j = 0; j < sys.N; j++) { const px = X(sys.x[j]), py = base - (re[j] * re[j] + im[j] * im[j]) * amp; j ? g.lineTo(px, py) : g.moveTo(px, py); }
+    g.stroke();
+    g.restore();
+    // legend
+    g.textAlign = 'left'; g.textBaseline = 'top';
+    let lx = pl + 8; const items = [['|ψ|²', '#ffc857'], ['Re ψ', '#5fd7ff'], ['Im ψ', '#ff6fd8'], ['V(x)', '#d9d9e8'], ['Eₙ', '#8d90a4']];
+    for (const [t, c] of items) { g.fillStyle = c; g.fillRect(lx, pt + 5, 10, 3); g.fillText(t, lx + 14, pt + 1); lx += 14 + g.measureText(t).width + 12; }
+  }
+  const fmt2 = v => Math.abs(v) >= 100 ? v.toFixed(0) : Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(2);
+
+  function updateStats(re, im) {
+    let nrm = 0, mx = 0;
+    for (let j = 0; j < sys.N; j++) { const d = re[j] * re[j] + im[j] * im[j]; nrm += d; mx += sys.x[j] * d; }
+    nrm *= sys.dx; mx *= sys.dx;
+    $('stats').textContent = 't = ' + tSim.toFixed(3) + '   ∫|ψ|²dx = ' + nrm.toFixed(5) + '   ⟨x⟩ = ' + mx.toFixed(3) + '   ⟨E⟩ = ' + fmt2(state.Emean) + ' ± ' + fmt2(state.Estd);
+  }
+
+  /* ---------------- main loop ---------------- */
+  const fullIdx = () => Int32Array.from({ length: sys.N }, (_, i) => i);
+  let fre = null, fim = null, fidx = null;
+  function frame() {
+    requestAnimationFrame(frame);
+    if (!sys || !state) return;
+    if (playing) { tSim += winVal() / 360 * Math.pow(10, num('speed')); dirty = true; }
+    if (dirty) {
+      if (!fidx || fidx.length !== sys.N) { fidx = fullIdx(); fre = new Float64Array(sys.N); fim = new Float64Array(sys.N); }
+      evolve(state, sys, tSim, fidx, fre, fim);
+      if (ok3d) { if (view === 'surface') updateSurface(); else updateRibbon(fre, fim); }
+      draw2D(fre, fim); updateStats(fre, fim);
+      dirty = false;
+    }
+    if (ok3d) {
+      controls && controls.update();
+      renderer.render(scene, camera);
+    }
+  }
+
+  /* ---------------- events ---------------- */
+  presetSel.addEventListener('change', () => { applyPreset(presetSel.value); solveAll(); });
+  $('vexpr').addEventListener('input', () => { presetSel.value = 'custom'; });
+  $('vexpr').addEventListener('keydown', e => { if (e.key === 'Enter') solveAll(); });
+  for (const id of ['mass', 'hbar', 'L', 'N']) $(id).addEventListener('change', solveAll);
+  document.querySelectorAll('input[name=bc]').forEach(r => r.addEventListener('change', solveAll));
+  $('solveBtn').addEventListener('click', solveAll);
+  $('initType').addEventListener('change', () => { syncInitFields(); prepareState(true); });
+  for (const id of ['x0', 'sigma', 'k0', 'nState']) $(id).addEventListener('input', () => prepareState(true));
+  $('win').addEventListener('change', () => { if (state) { computeScales(); dirty = true; } });
+  $('autoWin').addEventListener('click', () => { if (state) { $('win').value = +autoWindow().toPrecision(3); computeScales(); dirty = true; } });
+  $('viewMode').addEventListener('change', () => setViewMode(true));
+  $('heightMode').addEventListener('change', () => { dirty = true; });
+  $('speed').addEventListener('input', () => { $('speedOut').textContent = Math.pow(10, num('speed')).toFixed(2).replace(/\.?0+$/, '') + '×'; });
+  $('rotate').addEventListener('change', () => { if (controls) controls.autoRotate = $('rotate').checked; });
+  $('playBtn').addEventListener('click', () => { playing = !playing; $('playBtn').textContent = playing ? 'Pause' : 'Play'; });
+  $('resetBtn').addEventListener('click', () => { tSim = 0; dirty = true; });
+  $('pngBtn').addEventListener('click', () => {
+    if (!ok3d) return;
+    renderer.render(scene, camera);
+    const a = document.createElement('a'); a.download = 'schrodinger-wavefunction.png'; a.href = renderer.domElement.toDataURL('image/png'); a.click();
+  });
+  window.addEventListener('resize', () => { dirty = true; });
+  if (!playing) $('playBtn').textContent = 'Play';
+
+  /* ---------------- start ---------------- */
+  init3D();
+  presetSel.value = 'harmonic';
+  applyPreset('harmonic');
+  solveAll();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

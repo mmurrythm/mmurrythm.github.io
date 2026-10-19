@@ -58,10 +58,10 @@
     .availability-dot { width: 6px; height: 6px; border-radius: 50%; background: #80f0ca; box-shadow: 0 0 12px #80f0ca; }
     h1 { margin: 26px 0 22px; font-size: clamp(44px, 6.3vw, 78px); line-height: 1.04; font-weight: 560; letter-spacing: -.065em; }
     .gradient-text { color: var(--cyan); background: linear-gradient(105deg, #8be8ff 3%, #b8a4ff 48%, #f0b7ee 72%, #7fe7ff 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .evasive-title { position: relative; width: fit-content; max-width: 100%; will-change: transform; transform: translate3d(0, 0, 0); transition: transform 260ms cubic-bezier(.2,.8,.2,1), filter 260ms ease; touch-action: pan-y; }
-    .evasive-title.is-dodging { filter: drop-shadow(0 0 16px rgba(102, 220, 255, .28)); }
-    .evasive-title::after { content: ""; position: absolute; left: 2%; right: 12%; bottom: -5px; height: 2px; pointer-events: none; opacity: 0; transform: scaleX(.25); transform-origin: left; background: linear-gradient(90deg, #66dcff, #b99aff, transparent); transition: opacity 180ms ease, transform 300ms ease; }
-    .evasive-title.is-dodging::after { opacity: .85; transform: scaleX(1); }
+    .evasive-title { position: relative; width: fit-content; max-width: 100%; transform-origin: 50% 55%; touch-action: pan-y; transition: filter 180ms ease; }
+    .evasive-title.is-mercury { filter: url(#mercury-distortion) drop-shadow(0 0 18px rgba(102, 220, 255, .32)); }
+    .evasive-title .gradient-text { transition: letter-spacing 220ms ease; }
+    .evasive-title.is-mercury .gradient-text { letter-spacing: -.035em; }
     .hero-description { max-width: 620px; color: #b4c4d7; font-size: 15px; line-height: 1.95; }
     .hero-description strong { color: var(--text); font-weight: 600; }
     .hero-note { max-width: 510px; margin-top: 23px; padding-left: 16px; border-left: 2px solid var(--violet); color: #d1c8ed; font: italic 15px/1.8 var(--serif); }
@@ -160,6 +160,14 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
+    <filter id="mercury-distortion" x="-18%" y="-24%" width="136%" height="148%" color-interpolation-filters="sRGB">
+      <feTurbulence id="mercury-noise" type="fractalNoise" baseFrequency="0.018 0.035" numOctaves="2" seed="8" result="liquidNoise">
+        <animate attributeName="baseFrequency" dur="2.8s" values="0.018 0.035;0.028 0.018;0.018 0.035" repeatCount="indefinite" />
+      </feTurbulence>
+      <feDisplacementMap id="mercury-displacement" in="SourceGraphic" in2="liquidNoise" scale="0" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
   <div class="background-art" aria-hidden="true"><canvas id="circuit"></canvas></div>
   <header class="site-header">
     <div class="container navigation">
@@ -283,53 +291,62 @@
       });
       document.getElementById('year').textContent = new Date().getFullYear();
 
-      // Easter egg: the headline behaves like mercury, slipping away from nearby contact.
-      const evasiveTitle = document.querySelector('.evasive-title');
-      const heroCopy = evasiveTitle.closest('.hero > div');
+      // Easter egg: the complete headline ripples like a reflective mercury droplet.
+      const mercuryTitle = document.querySelector('.evasive-title');
+      const mercuryDisplacement = document.getElementById('mercury-displacement');
       const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-      let dodgeX = 0, dodgeY = 0, lastDodge = 0, resetTimer = 0;
-      function dodgeFrom(pointX, pointY, force = false) {
+      let mercuryTimer = 0, mercuryStrength = 0;
+      function setMercuryStrength(strength) {
         if (motionPreference.matches) return;
-        const bounds = evasiveTitle.getBoundingClientRect();
+        mercuryStrength = Math.max(0, Math.min(42, strength));
+        mercuryDisplacement.setAttribute('scale', String(mercuryStrength));
+        mercuryTitle.classList.toggle('is-mercury', mercuryStrength > 1);
+        window.clearTimeout(mercuryTimer);
+        if (mercuryStrength > 0) {
+          mercuryTimer = window.setTimeout(() => {
+            mercuryDisplacement.setAttribute('scale', '0');
+            mercuryTitle.classList.remove('is-mercury');
+            mercuryStrength = 0;
+          }, 1050);
+        }
+      }
+      function mercuryContact(pointX, pointY, force = false) {
+        if (motionPreference.matches) return;
+        const bounds = mercuryTitle.getBoundingClientRect();
         const centerX = bounds.left + bounds.width / 2;
         const centerY = bounds.top + bounds.height / 2;
-        const dx = centerX - pointX;
-        const dy = centerY - pointY;
-        const nearX = Math.abs(dx) < bounds.width / 2 + 66;
-        const nearY = Math.abs(dy) < bounds.height / 2 + 54;
-        if (!force && (!nearX || !nearY || performance.now() - lastDodge < 280)) return;
-        const length = Math.hypot(dx, dy) || 1;
-        const stepX = (dx / length) * (force ? 54 : 42);
-        const stepY = (dy / length) * (force ? 30 : 22);
-        const parent = heroCopy.getBoundingClientRect();
-        const original = evasiveTitle.getBoundingClientRect();
-        const nextX = Math.max(parent.left + 4 - original.left, Math.min(parent.right - original.right - 4, dodgeX + stepX));
-        const nextY = Math.max(-26, Math.min(26, dodgeY + stepY));
-        dodgeX = nextX;
-        dodgeY = nextY;
-        evasiveTitle.style.transform = `translate3d(${dodgeX}px, ${dodgeY}px, 0)`;
-        evasiveTitle.classList.add('is-dodging');
-        lastDodge = performance.now();
-        window.clearTimeout(resetTimer);
-        resetTimer = window.setTimeout(() => {
-          dodgeX = 0; dodgeY = 0;
-          evasiveTitle.style.transform = 'translate3d(0, 0, 0)';
-          evasiveTitle.classList.remove('is-dodging');
-        }, 1250);
+        const distance = Math.hypot(pointX - centerX, pointY - centerY);
+        const reach = Math.max(bounds.width * .72, 115);
+        if (!force && distance > reach) return;
+        const intensity = force ? 42 : Math.round(10 + (1 - distance / reach) * 32);
+        setMercuryStrength(intensity);
       }
+      const heroCopy = mercuryTitle.closest('.hero > div');
       heroCopy.addEventListener('pointermove', (event) => {
-        if (event.pointerType === 'mouse' || event.pointerType === 'pen') dodgeFrom(event.clientX, event.clientY);
+        if (event.pointerType === 'mouse' || event.pointerType === 'pen') {
+          mercuryContact(event.clientX, event.clientY);
+        }
       }, { passive: true });
-      evasiveTitle.addEventListener('pointerenter', (event) => {
-        if (event.pointerType === 'mouse' || event.pointerType === 'pen') dodgeFrom(event.clientX, event.clientY, true);
+      mercuryTitle.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'mouse' || event.pointerType === 'pen') {
+          mercuryContact(event.clientX, event.clientY, true);
+        }
       }, { passive: true });
-      evasiveTitle.addEventListener('touchstart', (event) => {
+      mercuryTitle.addEventListener('touchstart', (event) => {
         const touch = event.changedTouches[0];
-        if (touch) dodgeFrom(touch.clientX, touch.clientY, true);
+        if (touch) mercuryContact(touch.clientX, touch.clientY, true);
       }, { passive: true });
-      evasiveTitle.addEventListener('click', (event) => {
-        dodgeFrom(event.clientX, event.clientY, true);
+      mercuryTitle.addEventListener('click', (event) => {
+        mercuryContact(event.clientX, event.clientY, true);
       });
+      if (motionPreference.addEventListener) {
+        motionPreference.addEventListener('change', () => {
+          if (motionPreference.matches) {
+            mercuryDisplacement.setAttribute('scale', '0');
+            mercuryTitle.classList.remove('is-mercury');
+          }
+        });
+      }
 
 
       const canvas = document.getElementById('circuit');

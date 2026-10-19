@@ -67,16 +67,28 @@
     .secondary-link { padding-bottom: 5px; color: var(--muted); border-bottom: 1px solid var(--line); font: 10px var(--mono); letter-spacing: .08em; }
     .secondary-link:hover { color: var(--cyan); border-color: var(--cyan); }
     .micro-note { margin-top: 31px; color: #69839b; font: 9px var(--mono); letter-spacing: .14em; }
-    .emblem-stage { position: relative; display: grid; place-items: center; min-height: 400px; isolation: isolate; }
-    .emblem-stage::before, .emblem-stage::after { content: ""; position: absolute; width: min(78%, 330px); aspect-ratio: 1; border: 1px solid rgba(102, 220, 255, .27); border-radius: 50%; animation: orbit 34s linear infinite; }
-    .emblem-stage::after { width: min(62%, 260px); border-color: rgba(185, 154, 255, .32); border-style: dashed; animation-direction: reverse; animation-duration: 48s; }
-    .emblem-stage img { position: relative; z-index: 1; width: min(66%, 264px); height: auto; border-radius: 3px; filter: drop-shadow(0 0 28px rgba(65, 175, 255, .19)); animation: float 7s ease-in-out infinite; }
+    .emblem-stage { position: relative; display: grid; place-items: center; min-height: 400px; isolation: isolate; overflow: hidden; }
+    /* Quiet topographic contours: a nod to mathematical topology, not another orbit around the portrait. */
+    .emblem-stage::before { content: ""; position: absolute; inset: 3% 2%; z-index: -2; opacity: .36; background:
+      repeating-radial-gradient(ellipse at 28% 38%, transparent 0 15px, rgba(102, 220, 255, .20) 16px 17px, transparent 18px 29px),
+      repeating-radial-gradient(ellipse at 75% 62%, transparent 0 22px, rgba(185, 154, 255, .17) 23px 24px, transparent 25px 38px);
+      mask-image: radial-gradient(ellipse at center, #000 15%, transparent 76%); }
+    /* Right-angle PCB traces, via pads, and tiny code-like signal marks. */
+    .emblem-stage::after { content: ""; position: absolute; inset: 7% 0; z-index: -1; opacity: .48; background:
+      radial-gradient(circle at 14% 23%, rgba(102,220,255,.72) 0 2px, transparent 2.8px),
+      radial-gradient(circle at 83% 30%, rgba(185,154,255,.72) 0 2px, transparent 2.8px),
+      radial-gradient(circle at 20% 77%, rgba(102,220,255,.58) 0 2px, transparent 2.8px),
+      radial-gradient(circle at 88% 72%, rgba(102,220,255,.58) 0 2px, transparent 2.8px),
+      linear-gradient(90deg, transparent 0 8%, rgba(61,175,225,.23) 8.1% 8.3%, transparent 8.4% 25%, rgba(61,175,225,.18) 25.1% 25.3%, transparent 25.4%),
+      linear-gradient(0deg, transparent 0 18%, rgba(61,175,225,.20) 18.1% 18.3%, transparent 18.4% 70%, rgba(185,154,255,.16) 70.1% 70.3%, transparent 70.4%),
+      repeating-linear-gradient(135deg, transparent 0 25px, rgba(61,175,225,.10) 26px 27px, transparent 28px 48px);
+      mask-image: radial-gradient(ellipse at center, transparent 0 23%, #000 68%); }
+    .emblem-stage img { position: relative; z-index: 1; width: min(66%, 264px); height: auto; border: 1px solid rgba(102, 220, 255, .58); border-radius: 3px; box-shadow: 0 0 0 4px rgba(102, 220, 255, .035), 0 0 24px rgba(65, 175, 255, .12); filter: drop-shadow(0 8px 22px rgba(0, 0, 0, .42)); animation: float 7s ease-in-out infinite; }
     .orbit-label { position: absolute; color: #7795ad; font: 9px var(--mono); letter-spacing: .12em; }
     .orbit-label.top { top: 10px; }
     .orbit-label.bottom { bottom: 12px; }
-    .orbit-cross { position: absolute; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(102,220,255,.18), transparent); }
-    @keyframes orbit { to { transform: rotate(360deg); } }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+    .orbit-cross { position: absolute; width: 100%; height: 1px; opacity: .5; background: linear-gradient(90deg, transparent, rgba(102,220,255,.12), transparent); }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
     .ticker { overflow: hidden; border-block: 1px solid var(--line); background: rgba(5, 12, 21, .48); }
     .ticker-track { width: max-content; padding-block: 15px; color: #8ba6bc; font: 9px var(--mono); letter-spacing: .16em; animation: ticker 38s linear infinite; }
     .ticker-track span { margin-inline: 20px; color: var(--cyan); }

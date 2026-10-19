@@ -39,6 +39,45 @@ main{padding-bottom:70px}.intro{padding-block:clamp(70px,11vw,125px) 52px;max-wi
 .card.graph-universe-card h3,.card.graph-universe-card p,.card.graph-universe-card .meta,.card.graph-universe-card .tags,.card.graph-universe-card .action{position:relative;z-index:1;text-shadow:0 2px 12px #000}
 .card.graph-universe-card .tag{background:rgba(0,0,0,.5);backdrop-filter:blur(4px)}
 .card.graph-universe-card:before{border-color:rgba(102,220,255,.24);box-shadow:0 0 0 24px rgba(102,220,255,.025),0 0 0 50px rgba(185,154,255,.04)}
+
+/* The wider workbench: a paper parcel that calls for attention until fully unwrapped. */
+.workbench-card{position:relative;isolation:isolate;display:grid;place-items:center;min-height:350px;overflow:hidden;border-color:rgba(255,91,91,.34);background:radial-gradient(ellipse at 50% 44%,rgba(110,21,35,.13),transparent 56%),rgba(8,14,24,.86);transition:border-color .35s ease,background .5s ease}
+.workbench-card:before{display:none}
+.workbench-card .paper-rays{position:absolute;z-index:-1;inset:8%;pointer-events:none;opacity:.92;background:repeating-conic-gradient(from -7deg at 50% 49%,transparent 0deg 7deg,rgba(255,47,68,.78) 7.4deg 7.8deg,transparent 8.4deg 15deg);mask-image:radial-gradient(ellipse at center,transparent 0 13%,#000 28%,transparent 70%);animation:paper-rays-pulse 2.1s ease-in-out infinite;transition:opacity .5s ease}
+@keyframes paper-rays-pulse{0%,100%{opacity:.35;transform:scale(.94) rotate(-3deg)}50%{opacity:1;transform:scale(1.06) rotate(3deg)}}
+.paper-parcel{position:relative;z-index:1;display:grid;justify-items:center;gap:18px;width:min(100%,360px);padding:28px 24px;text-align:center}
+.paper-object{position:relative;width:126px;height:112px;display:grid;place-items:center;cursor:pointer;touch-action:pan-y;outline:none}
+.paper-ball{position:absolute;inset:7px 10px 5px;background:linear-gradient(138deg,#f8edcf 0%,#d7c7a4 25%,#fff5d9 38%,#bba982 55%,#f1e4c3 70%,#c5b48c 100%);border:1px solid rgba(255,247,216,.8);border-radius:44% 56% 61% 39% / 49% 38% 62% 51%;box-shadow:inset 8px 5px 10px rgba(255,255,255,.65),inset -9px -8px 13px rgba(78,57,29,.28),0 12px 26px rgba(0,0,0,.45);transform:rotate(-8deg);transition:transform .65s cubic-bezier(.2,.8,.2,1),border-radius .65s ease,opacity .4s ease}
+.paper-ball:before,.paper-ball:after{content:"";position:absolute;inset:9px 19px 10px 13px;border:2px solid rgba(126,98,59,.42);border-right-color:rgba(255,255,255,.72);border-bottom-color:rgba(255,255,255,.62);border-radius:36% 64% 39% 61% / 56% 34% 66% 44%;transform:rotate(31deg)}
+.paper-ball:after{inset:19px 7px 13px 23px;border-width:1px 2px 2px 1px;transform:rotate(-43deg);border-color:rgba(255,255,255,.62) rgba(119,91,53,.5) rgba(119,91,53,.5) rgba(255,255,255,.62)}
+.paper-crease{position:absolute;width:88px;height:44px;border-top:2px solid rgba(105,78,45,.48);border-radius:50%;transform:rotate(-26deg);filter:drop-shadow(0 2px 1px rgba(255,255,255,.55))}
+.paper-sheet{position:absolute;inset:5px -7px;width:140px;height:108px;background:linear-gradient(145deg,#fff8e6,#e5d6b6);border:1px solid #b9a780;box-shadow:0 9px 24px rgba(0,0,0,.28);opacity:0;transform:scale(.3) rotate(22deg);clip-path:polygon(18% 6%,83% 0,96% 17%,90% 84%,75% 96%,12% 91%,2% 72%,7% 23%);transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .5s ease,clip-path .7s ease}
+.paper-object:focus-visible{outline:2px solid #ff646e;outline-offset:8px;border-radius:12px}
+.workbench-card[data-progress="1"] .paper-ball,.workbench-card[data-progress="2"] .paper-ball,.workbench-card[data-progress="3"] .paper-ball{transform:rotate(calc(-8deg + var(--unwrapped, 0)*1deg)) scale(.88);border-radius:33% 67% 40% 60% / 40% 53% 47% 60%}
+.workbench-card[data-progress="2"] .paper-ball{transform:rotate(13deg) scale(.69) translate(22px,-8px)}
+.workbench-card[data-progress="3"] .paper-ball{opacity:.15;transform:rotate(32deg) scale(.4) translate(48px,-16px)}
+.workbench-card[data-progress="1"] .paper-sheet{opacity:.25;transform:scale(.56) rotate(13deg)}
+.workbench-card[data-progress="2"] .paper-sheet{opacity:.7;transform:scale(.82) rotate(-7deg)}
+.workbench-card[data-progress="3"] .paper-sheet{opacity:1;transform:scale(1.04) rotate(-3deg);clip-path:polygon(2% 4%,98% 0,100% 94%,4% 100%)}
+.workbench-card.is-unwrapped{border-color:rgba(102,220,255,.32);background:linear-gradient(135deg,rgba(9,24,37,.96),rgba(11,16,29,.96))}
+.workbench-card.is-unwrapped .paper-rays{opacity:0;animation:none}
+.workbench-card.is-unwrapped .paper-object{width:100%;height:0;overflow:visible;pointer-events:none}
+.workbench-card.is-unwrapped .paper-ball,.workbench-card.is-unwrapped .paper-crease{opacity:0}
+.workbench-card.is-unwrapped .paper-sheet{opacity:0;transform:scale(1.08) rotate(0);transition-delay:.1s}
+.workbench-card .paper-copy{position:relative;z-index:2;max-width:410px;opacity:0;max-height:0;overflow:hidden;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease,max-height .5s ease}
+.workbench-card.is-unwrapped .paper-copy{opacity:1;max-height:440px;transform:translateY(0)}
+.workbench-card .paper-copy .meta{color:var(--cyan)}
+.workbench-card .paper-copy h3{margin:9px 0 8px;font:clamp(25px,3vw,32px) var(--serif);letter-spacing:-.03em}
+.workbench-card .paper-copy p{margin:0;color:var(--muted);font-size:12px;line-height:1.85}
+.workbench-card .paper-copy .action{justify-content:center;padding-top:17px}
+.paper-instruction{margin:0;color:#ff9298;font:9px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.paper-progress{display:flex;gap:5px;justify-content:center}
+.paper-progress span{width:18px;height:2px;background:rgba(255,255,255,.17);transition:background .2s ease,box-shadow .2s ease}
+.workbench-card[data-progress="1"] .paper-progress span:nth-child(-n+1),.workbench-card[data-progress="2"] .paper-progress span:nth-child(-n+2),.workbench-card[data-progress="3"] .paper-progress span:nth-child(-n+3){background:#ff626e;box-shadow:0 0 8px rgba(255,69,85,.5)}
+.workbench-card.is-unwrapped .paper-progress{display:none}
+.workbench-card.is-unwrapped .paper-instruction{display:none}
+@media(prefers-reduced-motion:reduce){.paper-rays{animation:none!important}.paper-ball,.paper-sheet,.paper-copy{transition:none!important}}
+
 \n</style></head>
 <body><a class="skip" href="#main">Skip to content</a><div class="ambient" aria-hidden="true"></div>
 <header class="header"><div class="container nav"><a class="brand" href="index.html" aria-label="MMURRYTHM home"><img src="assests/logo.png" alt=""><span class="brand-name">MMURRYTHM<span class="gradient">.</span><small class="brand-sub">PERSONAL LABORATORY</small></span></a><button class="menu" type="button" aria-expanded="false" aria-controls="site-links">MENU +</button><nav class="links" id="site-links" aria-label="Main navigation"><a href="index.html">HOME</a><a href="projects.html" aria-current="page">PROJECTS</a><a href="academics.html">ACADEMICS</a><a href="blogs.html">BLOGS</a><a href="more.html">MORE ↗</a></nav></div></header>
@@ -49,7 +88,30 @@ main{padding-bottom:70px}.intro{padding-block:clamp(70px,11vw,125px) 52px;max-wi
 <article class="card botanical-card"><div class="meta">03 / INTERACTIVE STUDY · BOTANICAL PHYSICS</div><h3>Botanical Resonance</h3><p>An interactive flower built from layered petals, curved leaves, spring motion, and ambient wind. Shape the bloom, tune its elasticity, customize its iridescent palette, and give the stem a pulse.</p><div class="tags"><span class="tag">SPRING PHYSICS</span><span class="tag">GENERATIVE BOTANY</span><span class="tag">INTERACTIVE</span></div><a class="action" href="projects/botanical-resonance.html">EXPLORE THE FLOWER <span aria-hidden="true">↗</span></a></article>
 <article class="card maxwell-card"><div class="meta">04 / INTERACTIVE LAB · ELECTROMAGNETISM</div><h3>Maxwell Field Lab</h3><p>An interactive 3D electromagnetic laboratory for exploring Maxwell’s equations, electric and magnetic field lines, Gaussian flux, the Poynting vector, and induced EMF.</p><div class="tags"><span class="tag">MAXWELL’S EQUATIONS</span><span class="tag">3D FIELD LINES</span><span class="tag">LIVE READOUTS</span></div><div class="project-actions"><a class="action" href="projects/maxwell-field-lab.html">OPEN THE FIELD LAB <span aria-hidden="true">↗</span></a><a class="action" href="blogs/maxwell-field/">READ FIELD NOTES <span aria-hidden="true">↗</span></a></div></article>
 <article class="card graph-universe-card"><div class="meta">03 / INTERACTIVE LAB · GRAPH THEORY</div><h3>Graph Universe</h3><p>A beginner-friendly 3D graph playground. Rotate the network, move vertices, build connections, and learn vertices, edges, degree, paths, and density by experimenting.</p><div class="tags"><span class="tag">3D INTERACTION</span><span class="tag">GRAPH THEORY</span><span class="tag">BUILD YOUR OWN</span></div><div class="project-actions"><a class="action" href="projects/graph-universe.html">OPEN THE PLAYGROUND <span aria-hidden="true">↗</span></a><a class="action" href="blogs/graph-universe.html">READ BEGINNER NOTES <span aria-hidden="true">↗</span></a></div></article>
-<article class="card small-card"><div class="meta">03 / THE WIDER WORKBENCH</div><h3>More experiments soon.</h3><p>New entries will appear here when there is something concrete to share: a working demo, a useful explanation, or a repository worth exploring.</p><a class="action" href="https://github.com/mmurrythm" target="_blank" rel="noopener noreferrer">EXPLORE GITHUB <span aria-hidden="true">↗</span></a></article>
+<article class="card workbench-card" id="wider-workbench" data-progress="0">
+<div class="paper-rays" aria-hidden="true"></div>
+<div class="paper-parcel">
+<button class="paper-object" type="button" aria-label="Unwrap the crumpled paper" aria-controls="workbench-copy">
+<span class="paper-sheet" aria-hidden="true"></span><span class="paper-ball" aria-hidden="true"></span><span class="paper-crease" aria-hidden="true"></span>
+</button>
+<p class="paper-instruction" id="paper-instruction">A message is trying to get your attention · unwrap 3 times</p>
+<div class="paper-progress" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="paper-copy" id="workbench-copy" aria-live="polite" aria-hidden="true">
+<div class="meta">03 / THE WIDER WORKBENCH</div>
+<h3>More experiments soon.</h3>
+<p>New entries will appear here when there is something concrete to share: a working demo, a useful explanation, or a repository worth exploring.</p>
+<a class="action" href="https://github.com/mmurrythm" target="_blank" rel="noopener noreferrer">EXPLORE GITHUB <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+</article>
 </div></section><aside class="note"><div class="note-label">WORKING PRINCIPLE</div><p>Each project entry should eventually include the question it explores, what is currently working, what remains unfinished, and a direct path to the code or demo. No imaginary metrics, no pretend launch dates. Just the work.</p></aside></main>
 <footer class="container footer"><span>OBSERVE · MODEL · BUILD · REVISE</span><span>© <span id="year"></span> MUHAMMED MARUF-UR-RASHID</span></footer>
-<script>(()=>{const button=document.querySelector('.menu'),nav=document.querySelector('.links');const close=()=>{nav.classList.remove('open');button.setAttribute('aria-expanded','false');button.textContent='MENU +'};button.addEventListener('click',()=>{const open=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(open));button.textContent=open?'CLOSE −':'MENU +';nav.classList.toggle('open',open)});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){close();button.focus()}});document.getElementById('year').textContent=new Date().getFullYear()})();</script></body></html>
+<script>(()=>{const button=document.querySelector('.menu'),nav=document.querySelector('.links');const close=()=>{nav.classList.remove('open');button.setAttribute('aria-expanded','false');button.textContent='MENU +'};button.addEventListener('click',()=>{const open=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(open));button.textContent=open?'CLOSE −':'MENU +';nav.classList.toggle('open',open)});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){close();button.focus()}});document.getElementById('year').textContent=new Date().getFullYear();
+const parcel=document.getElementById('wider-workbench'),unwrap=parcel.querySelector('.paper-object'),copy=parcel.querySelector('.paper-copy'),instruction=parcel.querySelector('.paper-instruction');
+let progress=0;
+const unwrapStep=()=>{if(progress>=3)return;progress+=1;parcel.dataset.progress=String(progress);unwrap.setAttribute('aria-label',progress===3?'Paper fully unwrapped':'Unwrap the paper, step '+(progress+1)+' of 3');instruction.textContent=progress===3?'Message revealed':'Keep unwrapping · '+(3-progress)+' fold'+(3-progress===1?'':'s')+' remaining';if(progress===3){parcel.classList.add('is-unwrapped');copy.setAttribute('aria-hidden','false');unwrap.setAttribute('aria-expanded','true');instruction.setAttribute('aria-hidden','true')}};
+unwrap.addEventListener('click',unwrapStep);
+let dragging=false,lastX=0,dragDistance=0;
+unwrap.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'||e.pointerType==='touch'||e.pointerType==='pen'){dragging=true;lastX=e.clientX;dragDistance=0;try{unwrap.setPointerCapture(e.pointerId)}catch(_){}}});
+unwrap.addEventListener('pointermove',e=>{if(!dragging||progress>=3)return;const delta=Math.abs(e.clientX-lastX);dragDistance+=delta;lastX=e.clientX;if(dragDistance>=34){dragDistance=0;unwrapStep()}});
+const stopDrag=()=>{dragging=false};unwrap.addEventListener('pointerup',stopDrag);unwrap.addEventListener('pointercancel',stopDrag);})();</script></body></html>

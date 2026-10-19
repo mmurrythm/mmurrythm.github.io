@@ -28,4 +28,4 @@ const bind=(id,key,out,fmt=v=>v)=>$(id).addEventListener('input',e=>{c[key]=+e.t
 bind('count','count','countOut');bind('length','length','lengthOut');bind('stiff','stiff','stiffOut',v=>v.toFixed(3));bind('damp','damp','dampOut',v=>v.toFixed(2));bind('wind','wind','windOut',v=>v.toFixed(1));for(const [id,key] of [['petal','petal'],['shadow','shadow'],['core','core'],['leaf','leaf']])$(id).addEventListener('input',e=>c[key]=e.target.value);
 $('pulse').addEventListener('click',()=>nodes.forEach(n=>{n.v+=(Math.random()-.5)*.2;n.bv+=(Math.random()-.5)*16}));$('reset').addEventListener('click',()=>{c.stiff=.075;c.damp=.91;c.wind=.6;for(const [id,v,out,fmt] of [['stiff',.075,'stiffOut',v=>v.toFixed(3)],['damp',.91,'dampOut',v=>v.toFixed(2)],['wind',.6,'windOut',v=>v.toFixed(1)]]){$(id).value=v;$(out).textContent=fmt(v)}nodes.forEach(n=>{n.v=0;n.bv=0;n.bend=0})});
 })();
-</script></body></html>
+</script><script>/* Shared site-wide page-view counter; display is only on more.html. */(()=>{fetch('https://api.counterapi.dev/v1/mmurrythm-github-io/total-page-views/up',{cache:'no-store'}).catch(()=>{})})();</script></body></html>

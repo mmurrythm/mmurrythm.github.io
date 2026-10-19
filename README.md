@@ -1,51 +1,60 @@
-# Rythm / Lab — personal portfolio
+# MMURRYTHM — Personal Website
 
-A responsive, static portfolio for GitHub Pages. The visual direction combines a dark engineering notebook, gold-foil accents, blueprint grids, and technical sketches.
+The source for [mmurrythm.github.io](https://mmurrythm.github.io/), a static personal website for Muhammed Maruf-Ur-Rashid (Rythm), a Computer Science & Engineering undergraduate at BUET.
 
-## Files
+The visual system uses a dark, circuit-inspired backdrop, cyan-to-violet iridescent accents, the site's logo, and restrained ambient motion. The site is intentionally built with plain HTML, CSS, and JavaScript so it can be maintained page by page without a build toolchain.
+
+## Site map
+
+- **Home** — `index.html`: introduction and selected links.
+- **Projects** — `projects.html`: project and experiment overview.
+- **Academics** — `academics.html`: education and admission-related academic information.
+- **Blogs** — `blogs.html`: writing and notes; it clearly indicates that entries are pending rather than presenting unpublished articles as existing posts.
+- **More** — `more.html`: research identifiers, profiles, social links, and useful destinations.
+
+The shared navigation links these five pages. Each page currently keeps its styles and small navigation/year script inline to make independent revisions straightforward.
+
+## Repository layout
 
 ```text
 .
 ├── index.html
+├── projects.html
+├── academics.html
+├── blogs.html
+├── more.html
 ├── README.md
 ├── robots.txt
 ├── sitemap.xml
-└── assets/
-    ├── css/style.css
-    ├── js/main.js
-    └── img/
+└── assests/
+    └── logo.png
 ```
 
-## Publish on GitHub Pages
+**Note:** `assests/` is the existing repository directory name (including its spelling). The pages reference `assests/logo.png`; do not rename the folder unless every reference is updated at the same time.
 
-1. Open the repository `mmurrythm/mmurrythm.github.io`.
-2. Add or replace `index.html`, `README.md`, `robots.txt`, `sitemap.xml`, and the `assets/` files from this starter.
-3. Commit to the branch configured for GitHub Pages (commonly `main`).
-4. In **Settings → Pages**, verify the publishing source.
-5. Visit `https://mmurrythm.github.io/` after the build finishes.
+## Local preview
 
-The GitHub connector could not find the repository when this starter was prepared, so these files have **not** been pushed to GitHub.
+No framework, package manager, or build step is required. Open `index.html` in a browser, or serve the repository root with any static HTTP server to test relative links and page navigation.
 
-## Before publishing: verify the facts
+## GitHub Pages deployment
 
-- Education is listed as undergraduate Computer Science & Engineering at BUET.
-- Achievements are intentionally left as a placeholder until you add verified awards, ranks, certificates, contest results, publications, or measurable outcomes.
-- The Seibishi card links to https://github.com/mmurrythm/seibishi. Review the repository description and update the portfolio summary with its specific purpose and technologies.
-- Skill bars are illustrative self-assessments, not objective proficiency scores.
-- Research profiles link to ResearchGate and ORCID; add a public email later if desired.
-- Add your actual portrait only if you want one; the current hero uses an original inline SVG technical illustration.
+This repository's default branch is `docs`. Check **Settings → Pages** to confirm that GitHub Pages publishes from the intended branch and folder. Once a change is committed to that publishing source and the deployment finishes, visit [https://mmurrythm.github.io/](https://mmurrythm.github.io/).
 
-## Editing guide
+The sitemap is at [`sitemap.xml`](sitemap.xml) and lists the five public pages. `robots.txt` allows normal crawling and points crawlers to `https://mmurrythm.github.io/sitemap.xml`.
 
-- **Content and page structure:** `index.html`
-- **Colours, typography, layout, mobile design:** `assets/css/style.css`
-- **Mobile navigation, theme toggle, current year:** `assets/js/main.js`
-- **Search engine discovery:** `sitemap.xml`, `robots.txt`
+## Design and accessibility notes
 
-No framework, package manager, or build step is required. GitHub Pages can publish plain HTML, CSS, JavaScript, and XML files directly.
+- The pages provide a skip-to-content link, keyboard-visible focus styles, responsive layouts, and a collapsible mobile navigation menu.
+- Motion is reduced when the visitor enables the operating system's `prefers-reduced-motion` setting.
+- Keep the dark circuit / cyan-violet iridescent identity and the existing logo consistent when revising individual pages.
+- Keep content factual. Do not describe planned posts, projects, awards, or research as published accomplishments until they exist and can be verified.
+- Update the sitemap when adding or removing public pages. Update `robots.txt` only if crawling policy or the sitemap URL changes.
 
-## Public profiles
+## Public links
 
-- GitHub project: https://github.com/mmurrythm/seibishi
-- ResearchGate: https://www.researchgate.net/profile/Muhammed-Maruf-Ur-Rashid
-- ORCID: https://orcid.org/0009-0000-2438-780X
+- GitHub profile: [github.com/mmurrythm](https://github.com/mmurrythm)
+- Featured project repository: [Seibishi](https://github.com/mmurrythm/seibishi)
+- ResearchGate: [Muhammed Maruf-Ur-Rashid](https://www.researchgate.net/profile/Muhammed-Maruf-Ur-Rashid)
+- ORCID: [0009-0000-2438-780X](https://orcid.org/0009-0000-2438-780X)
+- Facebook: [mmurrythm](https://facebook.com/mmurrythm)
+- Instagram: [mmurrythm](https://instagram.com/mmurrythm)

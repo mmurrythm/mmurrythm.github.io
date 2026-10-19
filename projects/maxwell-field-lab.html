@@ -23,7 +23,18 @@ h3{font-size:10px;font-weight:700;color:var(--ac);margin:15px 0 7px;border-botto
 #bar .navlinks{display:flex;align-items:center;gap:clamp(8px,1.5vw,20px);margin-left:auto}
 #bar .navlinks a{color:var(--mu);text-decoration:none;font:9px ui-monospace,monospace;letter-spacing:.09em}
 #bar .navlinks a:hover{color:var(--ac)}
-#bar .tools{display:flex;gap:6px;flex-shrink:0}
+#bar .tools{display:flex;align-items:center;gap:6px;flex-shrink:0}
+#bar .notes-link{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid rgba(185,154,255,.32);color:var(--S);font:9px ui-monospace,monospace;letter-spacing:.04em;text-decoration:none;white-space:nowrap}
+#bar .notes-link:hover{background:rgba(185,154,255,.08);border-color:var(--S)}
+.pn::-webkit-scrollbar{width:6px}.pn::-webkit-scrollbar-track{background:transparent}.pn::-webkit-scrollbar-thumb{background:rgba(102,220,255,.22);border-radius:8px}.pn::-webkit-scrollbar-thumb:hover{background:rgba(102,220,255,.42)}
+.pn{scrollbar-color:rgba(102,220,255,.3) transparent;scrollbar-width:thin}
+input[type=range]{cursor:ew-resize}
+label{gap:12px;line-height:1.5}
+.eq{transition:border-color .2s ease,background .2s ease}.eq:hover{border-color:rgba(102,220,255,.34);background:rgba(102,220,255,.035)}
+#osc{border-radius:2px;background:rgba(3,9,17,.42)}
+#bar button{white-space:nowrap}
+@media(min-width:1100px){.pn{max-height:calc(100% - 132px - env(safe-area-inset-top,0px))}}
+
 button,select{font:inherit;color:var(--ink);background:rgba(10,24,40,.9);border:1px solid var(--ln);border-radius:3px;padding:6px 9px;cursor:pointer;transition:border-color .18s ease,background .18s ease}
 button:hover,select:hover{border-color:rgba(102,220,255,.55)}
 select{width:100%;margin-bottom:6px}.row{display:flex;gap:6px}.row>*{flex:1}
@@ -47,7 +58,7 @@ input[type=range]{width:100%;accent-color:var(--ac);margin:2px 0 8px}
 <div id="bar">
 <a class="brand" href="../index.html" aria-label="MMURRYTHM home"><img src="../assests/logo.png" alt=""><span>MMURRYTHM<span style="color:var(--ac)">.</span><small>PERSONAL LABORATORY</small></span></a>
 <nav class="navlinks" aria-label="Main navigation"><a href="../index.html">HOME</a><a href="../projects.html">PROJECTS</a><a href="../academics.html">ACADEMICS</a><a href="../blogs.html">BLOGS</a><a href="../more.html">MORE ↗</a></nav>
-<div class="tools"><button id="bL" aria-controls="L" aria-expanded="true">Build</button><button id="bR" aria-controls="R" aria-expanded="true">Maxwell</button></div>
+<div class="tools"><a class="notes-link" href="../blogs/maxwell-field/" title="Read the Maxwell Field Lab notes">FIELD NOTES ↗</a><button id="bL" aria-controls="L" aria-expanded="true">Build</button><button id="bR" aria-controls="R" aria-expanded="true">Maxwell</button></div>
 </div>
 <div id="L" class="pn">
 <h3>Scene</h3>

@@ -58,6 +58,10 @@
     .availability-dot { width: 6px; height: 6px; border-radius: 50%; background: #80f0ca; box-shadow: 0 0 12px #80f0ca; }
     h1 { margin: 26px 0 22px; font-size: clamp(44px, 6.3vw, 78px); line-height: 1.04; font-weight: 560; letter-spacing: -.065em; }
     .gradient-text { color: var(--cyan); background: linear-gradient(105deg, #8be8ff 3%, #b8a4ff 48%, #f0b7ee 72%, #7fe7ff 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .evasive-title { position: relative; width: fit-content; max-width: 100%; will-change: transform; transform: translate3d(0, 0, 0); transition: transform 260ms cubic-bezier(.2,.8,.2,1), filter 260ms ease; touch-action: pan-y; }
+    .evasive-title.is-dodging { filter: drop-shadow(0 0 16px rgba(102, 220, 255, .28)); }
+    .evasive-title::after { content: ""; position: absolute; left: 2%; right: 12%; bottom: -5px; height: 2px; pointer-events: none; opacity: 0; transform: scaleX(.25); transform-origin: left; background: linear-gradient(90deg, #66dcff, #b99aff, transparent); transition: opacity 180ms ease, transform 300ms ease; }
+    .evasive-title.is-dodging::after { opacity: .85; transform: scaleX(1); }
     .hero-description { max-width: 620px; color: #b4c4d7; font-size: 15px; line-height: 1.95; }
     .hero-description strong { color: var(--text); font-weight: 600; }
     .hero-note { max-width: 510px; margin-top: 23px; padding-left: 16px; border-left: 2px solid var(--violet); color: #d1c8ed; font: italic 15px/1.8 var(--serif); }
@@ -177,7 +181,7 @@
     <section class="container hero" id="top">
       <div>
         <div class="eyebrow availability"><span class="availability-dot"></span> ENGINEERING · COMPUTING · CREATIVE WORK</div>
-        <h1>Ideas in<br><span class="gradient-text">motion.</span></h1>
+        <h1 class="evasive-title" aria-label="Ideas in motion.">Ideas in<br><span class="gradient-text">motion.</span></h1>
         <p class="hero-description">I’m <strong>Muhammed Maruf-Ur-Rashid</strong>, an undergraduate studying Computer Science &amp; Engineering at BUET. This is my personal laboratory for software, research, mathematical ideas, and experiments still taking shape.</p>
         <p class="hero-note">Observe the system. Understand the mechanism. Build, test, revise.</p>
         <div class="hero-actions">
@@ -278,6 +282,55 @@
         }
       });
       document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Easter egg: the headline behaves like mercury, slipping away from nearby contact.
+      const evasiveTitle = document.querySelector('.evasive-title');
+      const heroCopy = evasiveTitle.closest('.hero > div');
+      const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let dodgeX = 0, dodgeY = 0, lastDodge = 0, resetTimer = 0;
+      function dodgeFrom(pointX, pointY, force = false) {
+        if (motionPreference.matches) return;
+        const bounds = evasiveTitle.getBoundingClientRect();
+        const centerX = bounds.left + bounds.width / 2;
+        const centerY = bounds.top + bounds.height / 2;
+        const dx = centerX - pointX;
+        const dy = centerY - pointY;
+        const nearX = Math.abs(dx) < bounds.width / 2 + 66;
+        const nearY = Math.abs(dy) < bounds.height / 2 + 54;
+        if (!force && (!nearX || !nearY || performance.now() - lastDodge < 280)) return;
+        const length = Math.hypot(dx, dy) || 1;
+        const stepX = (dx / length) * (force ? 54 : 42);
+        const stepY = (dy / length) * (force ? 30 : 22);
+        const parent = heroCopy.getBoundingClientRect();
+        const original = evasiveTitle.getBoundingClientRect();
+        const nextX = Math.max(parent.left + 4 - original.left, Math.min(parent.right - original.right - 4, dodgeX + stepX));
+        const nextY = Math.max(-26, Math.min(26, dodgeY + stepY));
+        dodgeX = nextX;
+        dodgeY = nextY;
+        evasiveTitle.style.transform = `translate3d(${dodgeX}px, ${dodgeY}px, 0)`;
+        evasiveTitle.classList.add('is-dodging');
+        lastDodge = performance.now();
+        window.clearTimeout(resetTimer);
+        resetTimer = window.setTimeout(() => {
+          dodgeX = 0; dodgeY = 0;
+          evasiveTitle.style.transform = 'translate3d(0, 0, 0)';
+          evasiveTitle.classList.remove('is-dodging');
+        }, 1250);
+      }
+      heroCopy.addEventListener('pointermove', (event) => {
+        if (event.pointerType === 'mouse' || event.pointerType === 'pen') dodgeFrom(event.clientX, event.clientY);
+      }, { passive: true });
+      evasiveTitle.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'mouse' || event.pointerType === 'pen') dodgeFrom(event.clientX, event.clientY, true);
+      }, { passive: true });
+      evasiveTitle.addEventListener('touchstart', (event) => {
+        const touch = event.changedTouches[0];
+        if (touch) dodgeFrom(touch.clientX, touch.clientY, true);
+      }, { passive: true });
+      evasiveTitle.addEventListener('click', (event) => {
+        dodgeFrom(event.clientX, event.clientY, true);
+      });
+
 
       const canvas = document.getElementById('circuit');
       const ctx = canvas.getContext('2d');

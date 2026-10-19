@@ -114,4 +114,4 @@ unwrap.addEventListener('click',unwrapStep);
 let dragging=false,lastX=0,dragDistance=0;
 unwrap.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'||e.pointerType==='touch'||e.pointerType==='pen'){dragging=true;lastX=e.clientX;dragDistance=0;try{unwrap.setPointerCapture(e.pointerId)}catch(_){}}});
 unwrap.addEventListener('pointermove',e=>{if(!dragging||progress>=3)return;const delta=Math.abs(e.clientX-lastX);dragDistance+=delta;lastX=e.clientX;if(dragDistance>=34){dragDistance=0;unwrapStep()}});
-const stopDrag=()=>{dragging=false};unwrap.addEventListener('pointerup',stopDrag);unwrap.addEventListener('pointercancel',stopDrag);})();</script></body></html>
+const stopDrag=()=>{dragging=false};unwrap.addEventListener('pointerup',stopDrag);unwrap.addEventListener('pointercancel',stopDrag);})();</script><script>/* Shared site-wide page-view counter; display is only on more.html. */(()=>{fetch('https://api.counterapi.dev/v1/mmurrythm-github-io/total-page-views/up',{cache:'no-store'}).catch(()=>{})})();</script></body></html>

@@ -32,4 +32,44 @@ main{padding-bottom:72px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 /* Shared domain-wide page-view counter. Displayed only on more.html. */
 (()=>{const endpoint='https://api.counterapi.dev/v1/mmurrythm-github-io/total-page-views/up';fetch(endpoint,{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Counter unavailable');return r.json()}).then(data=>{const count=document.getElementById('site-visit-count');if(count&&Number.isFinite(Number(data.count)))count.textContent=Number(data.count).toLocaleString()}).catch(()=>{const count=document.getElementById('site-visit-count');if(count)count.textContent='Unavailable'})})();
 </script>
-</body></html>
+
+<script>
+/* Accessible, reduced-motion-aware typing effect for this page's hero heading. */
+(()=> {
+ const heading=document.querySelector('main h1');
+ if(!heading || heading.dataset.typingReady) return;
+ heading.dataset.typingReady='true';
+ const original=heading.innerHTML;
+ const firstText=heading.childNodes[0]?.textContent?.trim()||'';
+ const gradient=heading.querySelector('.gradient');
+ if(!gradient) return;
+ const secondText=gradient.textContent.trim();
+ const breakEl=document.createElement('br');
+ const first=document.createTextNode('');
+ const second=document.createElement('span');
+ second.className=gradient.className;
+ const cursor=document.createElement('span');
+ cursor.className='typing-cursor';
+ cursor.setAttribute('aria-hidden','true');
+ cursor.textContent='▋';
+ heading.setAttribute('aria-label',"A path through questions and systems.");
+ heading.setAttribute('aria-live','off');
+ heading.replaceChildren(first,breakEl,second,cursor);
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(reduced){first.textContent=firstText;second.textContent=secondText;cursor.remove();return}
+ let i=0,j=0;
+ const tick=()=>{
+   if(i<firstText.length){first.textContent+=firstText[i++];setTimeout(tick,48);return}
+   if(j<secondText.length){second.textContent+=secondText[j++];setTimeout(tick,58);return}
+   cursor.classList.add('typing-cursor-done');
+ };
+ setTimeout(tick,280);
+})();
+</script>
+<style>
+.typing-cursor{display:inline-block;margin-left:.08em;color:var(--cyan);font-size:.72em;vertical-align:.08em;animation:typing-blink .8s steps(2,start) infinite}
+.typing-cursor-done{animation:typing-blink 1.1s steps(2,start) infinite;opacity:.75}
+@keyframes typing-blink{to{visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.typing-cursor{display:none;animation:none}}
+</style>
+\n</body></html>

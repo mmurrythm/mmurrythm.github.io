@@ -56,4 +56,41 @@ a.profile-widget:hover{transform:translateY(-3px)}
 <section class="visit-counter" aria-label="Website visit counter"><div class="visit-counter-mark" aria-hidden="true">↗</div><div class="visit-counter-copy"><div class="visit-counter-label">THE WHOLE CONSTELLATION</div><h2>Every visit leaves a trace.</h2><p>Combined page views across the entire MMURRYTHM website, not just this page.</p></div><div class="visit-counter-total"><span id="site-visit-count" aria-live="polite">Counting…</span><small>TOTAL PAGE VIEWS</small></div></section><footer class="container footer"><span>OBSERVE · MODEL · BUILD · REVISE</span><span>© <span id="year"></span> MUHAMMED MARUF-UR-RASHID</span></footer>
 <script>(()=>{const button=document.querySelector('.menu'),nav=document.querySelector('.links');const close=()=>{nav.classList.remove('open');button.setAttribute('aria-expanded','false');button.textContent='MENU +'};button.addEventListener('click',()=>{const open=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(open));button.textContent=open?'CLOSE −':'MENU +';nav.classList.toggle('open',open)});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){close();button.focus()}});document.getElementById('year').textContent=new Date().getFullYear();
 fetch('https://api.github.com/users/mmurrythm').then(r=>{if(!r.ok)throw Error('Profile unavailable');return r.json()}).then(p=>{document.getElementById('github-bio').textContent=p.bio||'Repositories, experiments, and open-source work.';document.getElementById('github-repos').textContent=p.public_repos??'—';document.getElementById('github-followers').textContent=p.followers??'—';const avatar=document.querySelector('.github-widget .profile-avatar');if(p.avatar_url)avatar.src=p.avatar_url}).catch(()=>{document.getElementById('github-bio').textContent='Public profile preview is temporarily unavailable. Open GitHub to see the latest details.'});
-fetch('https://codeforces.com/api/user.info?handles=mmurrythm').then(r=>{if(!r.ok)throw Error('Profile unavailable');return r.json()}).then(data=>{if(data.status!=='OK'||!data.result?.length)throw Error('Profile unavailable');const p=data.result[0];document.getElementById('cf-rank').textContent=p.rank||'Unrated';document.getElementById('cf-rating').textContent=p.rating??'Unrated';document.getElementById('cf-status').textContent=p.firstName||p.lastName?'Competitive programming profile for '+[p.firstName,p.lastName].filter(Boolean).join(' ')+'.':'Competitive programming profile and contest performance.'}).catch(()=>{document.getElementById('cf-status').textContent='Live rating could not be loaded here. Open Codeforces for current contest details.';document.querySelector('.codeforces-widget .live-dot').style.background='#8ca0b4'});})();</script><script>/* Shared site-wide page-view counter; display is only on more.html. */(()=>{fetch('https://api.counterapi.dev/v1/mmurrythm-github-io/total-page-views/up',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{const e=document.getElementById('site-visit-count');if(e&&Number.isFinite(Number(d.count)))e.textContent=Number(d.count).toLocaleString()}).catch(()=>{const e=document.getElementById('site-visit-count');if(e)e.textContent='Unavailable'})})();</script></body></html>
+fetch('https://codeforces.com/api/user.info?handles=mmurrythm').then(r=>{if(!r.ok)throw Error('Profile unavailable');return r.json()}).then(data=>{if(data.status!=='OK'||!data.result?.length)throw Error('Profile unavailable');const p=data.result[0];document.getElementById('cf-rank').textContent=p.rank||'Unrated';document.getElementById('cf-rating').textContent=p.rating??'Unrated';document.getElementById('cf-status').textContent=p.firstName||p.lastName?'Competitive programming profile for '+[p.firstName,p.lastName].filter(Boolean).join(' ')+'.':'Competitive programming profile and contest performance.'}).catch(()=>{document.getElementById('cf-status').textContent='Live rating could not be loaded here. Open Codeforces for current contest details.';document.querySelector('.codeforces-widget .live-dot').style.background='#8ca0b4'});})();</script><script>/* Shared site-wide page-view counter; display is only on more.html. */(()=>{fetch('https://api.counterapi.dev/v1/mmurrythm-github-io/total-page-views/up',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{const e=document.getElementById('site-visit-count');if(e&&Number.isFinite(Number(d.count)))e.textContent=Number(d.count).toLocaleString()}).catch(()=>{const e=document.getElementById('site-visit-count');if(e)e.textContent='Unavailable'})})();</script><script>
+(()=> {
+ const heading=document.querySelector('main h1');
+ if(!heading || heading.dataset.typingReady) return;
+ heading.dataset.typingReady='true';
+ const firstText=(heading.childNodes[0]?.textContent||'').trim();
+ const gradient=heading.querySelector('.gradient');
+ if(!gradient) return;
+ const secondText=gradient.textContent.trim();
+ heading.setAttribute('aria-label',(firstText+' '+secondText).replace(/\s+/g,' '));
+ const first=document.createTextNode('');
+ const lineBreak=document.createElement('br');
+ const second=document.createElement('span');
+ second.className=gradient.className;
+ const cursor=document.createElement('span');
+ cursor.className='typing-cursor';
+ cursor.setAttribute('aria-hidden','true');
+ cursor.textContent='▋';
+ heading.replaceChildren(first,lineBreak,second,cursor);
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+   first.textContent=firstText; second.textContent=secondText; cursor.remove(); return;
+ }
+ let a=0,b=0;
+ function typeNext(){
+   if(a<firstText.length){first.textContent+=firstText[a++];setTimeout(typeNext,48);return;}
+   if(b<secondText.length){second.textContent+=secondText[b++];setTimeout(typeNext,58);return;}
+   cursor.classList.add('typing-cursor-done');
+ }
+ setTimeout(typeNext,250);
+})();
+</script>
+<style>
+.typing-cursor{display:inline-block;margin-left:.08em;color:var(--cyan);font-size:.72em;vertical-align:.08em;animation:typing-blink .8s steps(2,start) infinite}
+@keyframes typing-blink{to{visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.typing-cursor{display:none;animation:none}}
+</style>
+
+</body></html>

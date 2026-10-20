@@ -31,24 +31,35 @@ main{padding-bottom:75px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 .preview-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-top:20px; }
 .preview-tags { color:var(--violet); font:9px var(--mono); letter-spacing:.1em; }
 .article-preview .repo-link { position:relative; z-index:2; }
+
+.article-preview{padding-top:0}
+.article-preview .article-head{padding-top:24px}
+.article-preview .blog-preview-image{display:block;width:calc(100% + 2px);max-width:none;height:190px;object-fit:cover;object-position:center;margin:0 -1px 0;border-bottom:1px solid var(--line);opacity:.9;filter:saturate(.88) contrast(1.04);transition:opacity .25s ease,filter .25s ease}
+.article-preview:hover .blog-preview-image{opacity:1;filter:saturate(1.15) contrast(1.06)}
+.article-preview .article-head{margin-top:0}
+.blog-preview-image.code-preview{object-position:top center}
+@media(max-width:700px){.article-preview .blog-preview-image{height:155px}}
 </style></head>
 <body><a class="skip" href="#main">Skip to content</a><div class="ambient" aria-hidden="true"></div>
 <header class="header"><div class="container nav"><a class="brand" href="index.html" aria-label="MMURRYTHM home"><img src="assests/logo.png" alt=""><span class="brand-name">MMURRYTHM<span class="gradient">.</span><small class="brand-sub">PERSONAL LABORATORY</small></span></a><button class="menu" type="button" aria-expanded="false" aria-controls="site-links">MENU +</button><nav class="links" id="site-links" aria-label="Main navigation"><a href="index.html">HOME</a><a href="projects.html">PROJECTS</a><a href="academics.html">ACADEMICS</a><a href="blogs.html" aria-current="page">BLOGS</a><a href="more.html">MORE ↗</a></nav></div></header>
 <main id="main" class="container"><section class="intro"><div class="eyebrow">04 / NOTES FROM THE WORKBENCH</div><h1>Think it through.<br><span class="gradient">Write it down.</span></h1><p>A notebook for explanations, experiments, and questions that deserve more than a passing thought. The goal is not to sound certain about everything. It is to make the reasoning visible.</p></section>
-<section class="notebook" aria-labelledby="notebook-title"><div class="status"><span class="dot"></span> NOTEBOOK LIVE · ENTRY 001</div><h2 id="notebook-title">A new project, out of the maze.</h2><p>First announcement: SEIBISHI, a C and raylib maze-survival game built around strategic movement, adaptive enemies, and ten increasingly challenging levels.</p><a class="repo-link" href="https://github.com/mmurrythm/seibishi" target="_blank" rel="noopener noreferrer">OPEN THE SEIBISHI REPOSITORY ↗</a></section><section class="article-list" aria-label="Published articles">
+<section class="article-list" aria-label="Published articles">
 <article class="article article-preview" id="graph-universe">
+<img class="blog-preview-image" src="https://mmurrythm.github.io/assets/graph-universe-preview.png" alt="Graph theory visualization preview" loading="lazy" decoding="async">
 <div class="article-head"><span>ENTRY 005 / MATHEMATICS NOTES</span><span>GRAPH THEORY · COMPUTER SCIENCE</span></div>
 <h2>Graph Theory, Without the Intimidation</h2>
 <p>A first-year-friendly introduction to vertices, edges, degree, paths, connected graphs, cycles, the handshake lemma, and density—with small challenges for the interactive 3D playground.</p>
 <div class="preview-footer"><span class="preview-tags">VERTICES · EDGES · PATHS · NETWORKS</span><a class="repo-link" href="blogs/graph-universe.html">READ ARTICLE ↗</a></div>
 </article>
 <article class="article article-preview" id="schrodinger-wavefunction">
+<img class="blog-preview-image" src="https://mmurrythm.github.io/assests/schrodinger-wavefunction/wavefunction.png" alt="Schrödinger wavefunction preview" loading="lazy" decoding="async">
 <div class="article-head"><span>ENTRY 004 / QUANTUM NOTES</span><span>PHYSICS · WAVE MECHANICS</span></div>
 <h2>The Schrödinger Wavefunction</h2>
 <p>A visual introduction to quantum states, probability density, superposition, nodes, and the time-dependent Schrödinger equation, illustrated with all five original project images.</p>
 <div class="preview-footer"><span class="preview-tags">QUANTUM · WAVEFUNCTION · PROBABILITY</span><a class="repo-link" href="blogs/schrodinger-wavefunction/">READ ARTICLE ↗</a></div>
 </article>
 <article class="article article-preview" id="cse102-solutions">
+<img class="blog-preview-image code-preview" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80" alt="C programming code screenshot preview" loading="lazy" decoding="async">
 <div class="article-head"><span>ENTRY 002 / COURSEWORK NOTES</span><span>C PROGRAMMING · BUET CSE 102</span></div>
 <h2>Learning C by Building a Solution Collection</h2>
 <p>A growing collection of CSE 102 coursework and practice solutions, from conditionals, functions, and strings to pointers, dynamic arrays, matrix operations, and algorithmic problem-solving.</p>
@@ -63,6 +74,7 @@ main{padding-bottom:75px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 <div class="preview-footer"><span class="preview-tags">C · RAYLIB · GAME AI</span><a class="repo-link" href="blogs/seibishi/">READ ARTICLE ↗</a></div>
 </article>
 <article class="article article-preview" id="maxwell-field-notes">
+<img class="blog-preview-image" src="https://mmurrythm.github.io/assests/maxwell-field/maxwell-field-bg.png" alt="Maxwell electromagnetic field preview" loading="lazy" decoding="async">
 <div class="article-head"><span>ENTRY 003 / VISUAL FIELD NOTES</span><span>PHYSICS · ELECTROMAGNETISM</span></div>
 <h2>Reading the Invisible: Maxwell Field Lab</h2>
 <p>A visual companion to an interactive 3D electromagnetic laboratory. Explore the meaning of Maxwell’s four equations, electric flux, magnetic induction, the Poynting vector, and the limits of a simplified field model—with the project’s own illustrations.</p>

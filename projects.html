@@ -154,4 +154,41 @@ const stopDrag=()=>{dragging=false};unwrap.addEventListener('pointerup',stopDrag
 @keyframes typing-blink{to{visibility:hidden}}
 @media(prefers-reduced-motion:reduce){.typing-cursor{display:none;animation:none}}
 </style>
-\n</body></html>
+\n<script>
+(()=> {
+ const heading=document.querySelector('main h1');
+ if(!heading || heading.dataset.typingReady) return;
+ heading.dataset.typingReady='true';
+ const firstText=(heading.childNodes[0]?.textContent||'').trim();
+ const gradient=heading.querySelector('.gradient');
+ if(!gradient) return;
+ const secondText=gradient.textContent.trim();
+ heading.setAttribute('aria-label',(firstText+' '+secondText).replace(/\s+/g,' '));
+ const first=document.createTextNode('');
+ const lineBreak=document.createElement('br');
+ const second=document.createElement('span');
+ second.className=gradient.className;
+ const cursor=document.createElement('span');
+ cursor.className='typing-cursor';
+ cursor.setAttribute('aria-hidden','true');
+ cursor.textContent='▋';
+ heading.replaceChildren(first,lineBreak,second,cursor);
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+   first.textContent=firstText; second.textContent=secondText; cursor.remove(); return;
+ }
+ let a=0,b=0;
+ function typeNext(){
+   if(a<firstText.length){first.textContent+=firstText[a++];setTimeout(typeNext,48);return;}
+   if(b<secondText.length){second.textContent+=secondText[b++];setTimeout(typeNext,58);return;}
+   cursor.classList.add('typing-cursor-done');
+ }
+ setTimeout(typeNext,250);
+})();
+</script>
+<style>
+.typing-cursor{display:inline-block;margin-left:.08em;color:var(--cyan);font-size:.72em;vertical-align:.08em;animation:typing-blink .8s steps(2,start) infinite}
+@keyframes typing-blink{to{visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.typing-cursor{display:none;animation:none}}
+</style>
+
+</body></html>

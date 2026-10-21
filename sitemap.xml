@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://mmurrythm.github.io/</loc>
-  </url>
-  <url>
-    <loc>https://mmurrythm.github.io/projects.html</loc>
-  </url>
-  <url>
-    <loc>https://mmurrythm.github.io/academics.html</loc>
-  </url>
-  <url>
-    <loc>https://mmurrythm.github.io/blogs.html</loc>
-  </url>
-  <url>
-    <loc>https://mmurrythm.github.io/more.html</loc>
-  </url>
+  <url><loc>https://mmurrythm.github.io/</loc></url>
+  <url><loc>https://mmurrythm.github.io/projects.html</loc></url>
+  <url><loc>https://mmurrythm.github.io/academics.html</loc></url>
+  <url><loc>https://mmurrythm.github.io/blogs.html</loc></url>
+  <url><loc>https://mmurrythm.github.io/more.html</loc></url>
+  <url><loc>https://mmurrythm.github.io/projects/botanical-resonance.html</loc></url>
+  <url><loc>https://mmurrythm.github.io/projects/graph-universe.html</loc></url>
+  <url><loc>https://mmurrythm.github.io/projects/maxwell-field-lab.html</loc></url>
+  <url><loc>https://mmurrythm.github.io/projects/schrodinger.html</loc></url>
+  <url><loc>https://mmurrythm.github.io/blogs/cse102-solutions/</loc></url>
+  <url><loc>https://mmurrythm.github.io/blogs/graph-universe.html</loc></url>
+  <url><loc>https://mmurrythm.github.io/blogs/maxwell-field/</loc></url>
+  <url><loc>https://mmurrythm.github.io/blogs/schrodinger-wavefunction/</loc></url>
+  <url><loc>https://mmurrythm.github.io/blogs/seibishi/</loc></url>
 </urlset>

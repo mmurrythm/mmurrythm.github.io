@@ -1,0 +1,55 @@
+name: Website Observatory
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * *"
+  push:
+    branches: ["main"]
+    paths:
+      - "**/*.html"
+      - "**/*.css"
+      - "**/*.js"
+      - "sitemap.xml"
+      - "robots.txt"
+      - ".github/workflows/site-observatory.yml"
+      - ".github/scripts/site-observatory.mjs"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website-observatory
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: Browser checks and Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install audit tools
+        run: npm install --no-save playwright lighthouse
+
+      - name: Install Chromium and system dependencies
+        run: npx playwright install --with-deps chromium
+
+      - name: Run browser, link, and Lighthouse audits
+        run: node .github/scripts/site-observatory.mjs
+
+      - name: Upload audit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-observatory-${{ github.run_number }}
+          path: reports/
+          if-no-files-found: warn
+          retention-days: 30

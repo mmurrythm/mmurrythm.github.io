@@ -60,6 +60,48 @@ main{padding-bottom:72px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 @media(prefers-reduced-motion:reduce){.record-unit.buet .record-emblem{animation:none}.record-emblem,.record-card,.record-detail{transition:none;animation:none}}
 
 
+/* Centered, continuously circulating academic cards */
+.record-stage{position:relative;overflow:hidden;padding:28px 0 34px}
+.record-stage:before,.record-stage:after{content:"";position:absolute;z-index:3;top:0;bottom:0;width:clamp(18px,5vw,64px);pointer-events:none}
+.record-stage:before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.record-stage:after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
+.record-strip{display:flex;align-items:flex-start;gap:20px;width:max-content;padding:10px 0 24px;will-change:transform;animation:academic-circulate 48s linear infinite}
+.record-stage:hover .record-strip,.record-stage:focus-within .record-strip,.record-stage.is-paused .record-strip{animation-play-state:paused}
+.record-unit{flex:0 0 238px;min-width:0;scroll-snap-align:center;position:relative;padding-top:45px;transition:flex-basis .42s cubic-bezier(.2,.8,.2,1)}
+.record-unit.buet{flex-basis:282px}
+.record-emblem{position:absolute;z-index:2;top:0;left:50%;transform:translateX(-50%);width:78px;height:78px;padding:10px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(102,220,255,.4);background:radial-gradient(circle,rgba(10,34,54,.98),rgba(3,10,19,.98));box-shadow:0 0 26px rgba(70,193,241,.12);transition:transform .55s cubic-bezier(.2,.8,.2,1),box-shadow .55s ease,border-color .4s ease}
+.record-emblem img{width:100%;height:100%;object-fit:contain}
+.record-unit.buet .record-emblem{width:96px;height:96px;top:-8px;border-color:rgba(102,220,255,.8);box-shadow:0 0 34px rgba(102,220,255,.25),0 0 0 5px rgba(102,220,255,.045)}
+.record-card{min-height:196px;border:1px solid var(--line);background:linear-gradient(150deg,rgba(10,25,42,.94),rgba(6,13,24,.96));position:relative;overflow:hidden;transition:min-height .48s cubic-bezier(.2,.8,.2,1),border-color .35s ease,background .35s ease,box-shadow .4s ease}
+.record-card:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 15%,rgba(102,220,255,.045),transparent 70%);opacity:.65}
+.record-unit.buet .record-card{border-color:rgba(102,220,255,.62);background:linear-gradient(150deg,rgba(11,37,57,.98),rgba(6,15,28,.98));box-shadow:inset 0 0 0 1px rgba(102,220,255,.07),0 10px 40px rgba(0,0,0,.16)}
+.record-unit:hover .record-emblem,.record-unit:focus-within .record-emblem,.record-unit.is-open .record-emblem{transform:translateX(-50%) translateY(-4px) rotate(-3deg);box-shadow:0 0 32px rgba(102,220,255,.22);border-color:rgba(102,220,255,.72)}
+.record-unit.buet .record-emblem{animation:emblem-float 5s ease-in-out infinite}
+@keyframes emblem-float{0%,100%{translate:0 0}50%{translate:0 -5px}}
+.record-card summary{list-style:none;cursor:pointer;min-height:196px;padding:48px 18px 18px;display:flex;flex-direction:column;gap:10px;outline-offset:-4px}
+.record-card summary::-webkit-details-marker{display:none}
+.record-card summary:after{content:"HOVER TO EXPAND  ↗";margin-top:auto;padding-top:14px;color:var(--cyan);font:9px var(--mono);letter-spacing:.08em}
+.record-card[open] summary:after{content:"CLICK TO COLLAPSE  −"}
+.record-type{color:var(--violet);font:9px var(--mono);letter-spacing:.1em;text-transform:uppercase;text-align:center}
+.record-rank{font-size:40px;line-height:1.05;letter-spacing:-.055em;text-align:center;margin:5px 0 2px}
+.record-unit.buet .record-rank{font-size:50px;color:var(--cyan)}
+.record-rank small{font:10px var(--mono);letter-spacing:0;color:var(--muted)}
+.record-card h3{font-size:15px;line-height:1.45;font-weight:560;text-align:center;margin:0}
+.record-subtitle{color:var(--muted);font-size:11px;line-height:1.7;text-align:center;margin:0}
+.record-detail{display:grid;grid-template-rows:0fr;opacity:0;padding:0 18px;border-top:1px solid transparent;transition:grid-template-rows .48s cubic-bezier(.2,.8,.2,1),opacity .3s ease,padding .48s cubic-bezier(.2,.8,.2,1),border-color .35s ease}
+.record-detail>*{min-height:0}
+.record-card[open] .record-detail{grid-template-rows:1fr;opacity:1;padding:12px 18px 20px;border-color:var(--line)}
+.record-detail p{margin:0 0 12px;color:var(--muted);font-size:12px;line-height:1.85}
+.record-detail strong{color:var(--text);font-weight:550}
+.record-detail a{display:inline-block;margin-top:5px;color:var(--cyan);font:9px var(--mono);letter-spacing:.06em}
+.record-detail .subject-marks{width:100%;margin:6px 0 12px;border-collapse:collapse;font-size:11px}
+.subject-marks td,.subject-marks th{padding:6px 4px;text-align:left;border-bottom:1px solid var(--line)}
+.subject-marks td:last-child,.subject-marks th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.record-note{margin-top:8px;color:#8098ad;font-size:11px;line-height:1.8}
+@keyframes academic-circulate{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:700px){.record-strip{gap:14px}.record-unit{flex-basis:220px}.record-unit.buet{flex-basis:250px}.record-emblem{width:72px;height:72px}.record-unit.buet .record-emblem{width:88px;height:88px}.record-card,.record-card summary{min-height:190px}.record-card summary{padding-inline:14px}.record-detail{padding-inline:14px}.record-card[open] .record-detail{padding-inline:14px}}
+@media(prefers-reduced-motion:reduce){.record-strip{animation:none;overflow-x:auto;max-width:100%;width:100%;flex-wrap:wrap}.record-unit.buet .record-emblem{animation:none}.record-emblem,.record-card,.record-detail,.record-unit{transition:none}}
+
 </style>  <link rel="canonical" href="https://mmurrythm.github.io/academics.html">
   <meta property="og:url" content="https://mmurrythm.github.io/academics.html">
   <meta property="og:site_name" content="MMURRYTHM">
@@ -98,7 +140,18 @@ main{padding-bottom:72px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 <main id="main" class="container"><section class="intro"><div class="eyebrow">03 / EDUCATION & MILESTONES</div><h1>A path through<br><span class="gradient">questions and systems.</span></h1></section>
 <section class="section" aria-labelledby="records-title">
 <div class="section-head"><h2 id="records-title">Institutions &amp; milestones</h2><span>SELECT A CARD TO EXPAND · SCROLL HORIZONTALLY</span></div>
-<div class="record-strip" aria-label="Expandable academic records">
+<div class="record-stage" aria-label="Circular carousel of academic records"><div class="record-strip" aria-label="Expandable academic records"><div class="record-unit"><span class="record-emblem"><img src="assests/academics/du-mark.webp" alt="University of Dhaka emblem" loading="lazy" decoding="async"></span><details class="record-card">
+<summary><div class="record-top"><div><div class="record-type">University · 2025–2026</div><div class="record-rank">662 <small>merit rank</small></div></div></div><h3>University of Dhaka · Science Unit</h3><p class="record-subtitle">Undergraduate admission · Dhaka, Bangladesh</p></summary>
+<div class="record-detail"><p><strong>Admission merit position:</strong> 662 in the Science unit for the 2025–2026 session, as listed in the linked merit list.</p><p>This records the admission result, not enrolment at the University of Dhaka.</p><a href="https://udvash-unmesh.com/media/Files/Result/25/Ka/DUKaMeritWise.pdf" target="_blank" rel="noopener noreferrer">MERIT LIST (PDF) ↗</a><br><a href="https://du.ac.bd/" target="_blank" rel="noopener noreferrer">UNIVERSITY WEBSITE ↗</a></div>
+</details></div>
+<div class="record-unit"><span class="record-emblem"><img src="assests/academics/rangamati-medical-mark.webp" alt="Rangamati Medical College emblem" loading="lazy" decoding="async"></span><details class="record-card">
+<summary><div class="record-top"><div><div class="record-type">Medical · 2025–2026</div><div class="record-rank">4,785 <small>merit position</small></div></div></div><h3>MBBS/BDS Admission</h3><p class="record-subtitle">Allotted: Rangamati Medical College</p></summary>
+<div class="record-detail"><p><strong>Medical admission merit position:</strong> 4,785, with Rangamati Medical College, Rangamati shown as the allotted college in the linked merit list.</p><p>This is presented as an admission allocation result, not as current medical-college enrolment.</p><a href="https://udvash-unmesh.com/media/Files/Result/25/Medical/MedicalMeritWise.pdf" target="_blank" rel="noopener noreferrer">MEDICAL MERIT LIST (PDF) ↗</a></div>
+</details></div>
+<div class="record-unit"><span class="record-emblem"><img src="assests/academics/ccpc-mark.webp" alt="Chattogram Cantonment Public College crest" loading="lazy" decoding="async"></span><details class="record-card">
+<summary><div class="record-top"><div><div class="record-type">Higher Secondary · HSC 2025</div><div class="record-rank">GPA 5.00</div></div></div><h3>Chattogram Cantonment Public College</h3><p class="record-subtitle">Science · Session 2023–2024 · Chattogram</p></summary>
+<div class="record-detail"><p><strong>HSC result:</strong> PASS · GPA 5.00 · total 1,144 / 1,300 marks.</p><p><strong>Institutional rank:</strong> 32 / 758.</p><p><strong>Group rank:</strong> 825 / 21,148 — approximately the top 3.9% of that group.</p><p class="record-note">Rankings and denominators are reported by the linked individual result record. Institutional and group ranks are different measures.</p><table class="subject-marks" aria-label="HSC subject-wise marks"><thead><tr><th>Subject</th><th>Marks</th></tr></thead><tbody><tr><td>Bangla</td><td>182 / 200</td></tr><tr><td>English</td><td>166 / 200</td></tr><tr><td>Physics</td><td>177 / 200</td></tr><tr><td>Chemistry</td><td>182 / 200</td></tr><tr><td>Biology</td><td>169 / 200</td></tr><tr><td>Higher Mathematics</td><td>180 / 200</td></tr><tr><td>ICT</td><td>88 / 100</td></tr></tbody></table><a href="https://boardexamrankings.vercel.app/hsc/2025/individual/108456/" target="_blank" rel="noopener noreferrer">HSC INDIVIDUAL RESULT ↗</a><br><a href="https://ccpc.edu.bd/" target="_blank" rel="noopener noreferrer">COLLEGE WEBSITE ↗</a></div>
+</details></div>
 <div class="record-unit buet"><span class="record-emblem"><img src="assests/academics/buet-mark.webp" alt="BUET emblem" loading="lazy" decoding="async"></span><details class="record-card buet">
 <summary><div class="record-top"><div><div class="record-type">Undergraduate · 2025–2026</div><div class="record-rank">299 <small>merit rank</small></div></div></div><h3>BUET · Computer Science &amp; Engineering</h3><p class="record-subtitle">Current undergraduate study · Dhaka, Bangladesh</p></summary>
 <div class="record-detail"><p><strong>Education:</strong> Computer Science &amp; Engineering at Bangladesh University of Engineering and Technology (BUET).</p><p><strong>Admission:</strong> Merit position 299 for the 2025–2026 undergraduate admission session; CSE.</p><p>My current academic home, with interests in computing, algorithms, engineering, and the mathematics underneath them.</p><a href="https://udvash-unmesh.com/media/Files/Result/25/BUET/BUETMeritWise.pdf" target="_blank" rel="noopener noreferrer">ADMISSION MERIT LIST (PDF) ↗</a><br><a href="https://cse.buet.ac.bd/" target="_blank" rel="noopener noreferrer">CSE DEPARTMENT ↗</a><br><a href="https://buet.ac.bd/" target="_blank" rel="noopener noreferrer">BUET WEBSITE ↗</a></div>
@@ -119,7 +172,15 @@ main{padding-bottom:72px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 <summary><div class="record-top"><div><div class="record-type">Higher Secondary · HSC 2025</div><div class="record-rank">GPA 5.00</div></div></div><h3>Chattogram Cantonment Public College</h3><p class="record-subtitle">Science · Session 2023–2024 · Chattogram</p></summary>
 <div class="record-detail"><p><strong>HSC result:</strong> PASS · GPA 5.00 · total 1,144 / 1,300 marks.</p><p><strong>Institutional rank:</strong> 32 / 758.</p><p><strong>Group rank:</strong> 825 / 21,148 — approximately the top 3.9% of that group.</p><p class="record-note">Rankings and denominators are reported by the linked individual result record. Institutional and group ranks are different measures.</p><table class="subject-marks" aria-label="HSC subject-wise marks"><thead><tr><th>Subject</th><th>Marks</th></tr></thead><tbody><tr><td>Bangla</td><td>182 / 200</td></tr><tr><td>English</td><td>166 / 200</td></tr><tr><td>Physics</td><td>177 / 200</td></tr><tr><td>Chemistry</td><td>182 / 200</td></tr><tr><td>Biology</td><td>169 / 200</td></tr><tr><td>Higher Mathematics</td><td>180 / 200</td></tr><tr><td>ICT</td><td>88 / 100</td></tr></tbody></table><a href="https://boardexamrankings.vercel.app/hsc/2025/individual/108456/" target="_blank" rel="noopener noreferrer">HSC INDIVIDUAL RESULT ↗</a><br><a href="https://ccpc.edu.bd/" target="_blank" rel="noopener noreferrer">COLLEGE WEBSITE ↗</a></div>
 </details></div>
-</div>
+<div class="record-unit buet"><span class="record-emblem"><img src="assests/academics/buet-mark.webp" alt="BUET emblem" loading="lazy" decoding="async"></span><details class="record-card buet">
+<summary><div class="record-top"><div><div class="record-type">Undergraduate · 2025–2026</div><div class="record-rank">299 <small>merit rank</small></div></div></div><h3>BUET · Computer Science &amp; Engineering</h3><p class="record-subtitle">Current undergraduate study · Dhaka, Bangladesh</p></summary>
+<div class="record-detail"><p><strong>Education:</strong> Computer Science &amp; Engineering at Bangladesh University of Engineering and Technology (BUET).</p><p><strong>Admission:</strong> Merit position 299 for the 2025–2026 undergraduate admission session; CSE.</p><p>My current academic home, with interests in computing, algorithms, engineering, and the mathematics underneath them.</p><a href="https://udvash-unmesh.com/media/Files/Result/25/BUET/BUETMeritWise.pdf" target="_blank" rel="noopener noreferrer">ADMISSION MERIT LIST (PDF) ↗</a><br><a href="https://cse.buet.ac.bd/" target="_blank" rel="noopener noreferrer">CSE DEPARTMENT ↗</a><br><a href="https://buet.ac.bd/" target="_blank" rel="noopener noreferrer">BUET WEBSITE ↗</a></div>
+</details></div>
+<div class="record-unit"><span class="record-emblem"><img src="assests/academics/cuet-mark.webp" alt="CUET emblem" loading="lazy" decoding="async"></span><details class="record-card">
+<summary><div class="record-top"><div><div class="record-type">Engineering · 2025–2026</div><div class="record-rank">101 <small>merit rank</small></div></div></div><h3>CUET</h3><p class="record-subtitle">Chittagong University of Engineering &amp; Technology</p></summary>
+<div class="record-detail"><p><strong>Admission merit position:</strong> 101 for the 2025–2026 undergraduate admission session.</p><p>This is an admission result, not a claim of enrolment at CUET.</p><a href="https://app.cuet.ac.bd/storage/Notices/695d28ce0a1d8.pdf" target="_blank" rel="noopener noreferrer">CUET MERIT LIST (PDF) ↗</a><br><a href="https://cuet.ac.bd/" target="_blank" rel="noopener noreferrer">CUET WEBSITE ↗</a></div>
+</details></div>
+</div></div>
 
 </section>
 </main><footer class="container footer"><span>OBSERVE · MODEL · BUILD · REVISE</span><span>© <span id="year"></span> MUHAMMED MARUF-UR-RASHID</span></footer>
@@ -169,27 +230,56 @@ main{padding-bottom:72px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 </style>
 
 <script>
-/* Hover cards open temporarily; click remains a manual toggle. */
 (()=> {
- const units=[...document.querySelectorAll('.record-unit')];
- const timers=new WeakMap();
- const clearTimer=card=>{const t=timers.get(card);if(t)clearTimeout(t);timers.delete(card)};
- const close=card=>{card.open=false;card.closest('.record-unit')?.classList.remove('is-open');clearTimer(card)};
- const openOnHover=card=>{
-   clearTimer(card);
-   card.open=true;
-   card.closest('.record-unit')?.classList.add('is-open');
-   timers.set(card,setTimeout(()=>{if(!card.matches(':hover')&&!card.contains(document.activeElement))close(card);else timers.set(card,setTimeout(()=>close(card),30000))},30000));
+ const stage=document.querySelector('.record-stage');
+ const strip=document.querySelector('.record-strip');
+ if(!stage||!strip)return;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const originals=[...strip.querySelectorAll('.record-unit')].slice(0,5);
+ const duplicates=[...strip.querySelectorAll('.record-unit')].slice(5);
+ let pauseTimer;
+ const pause=()=>{stage.classList.add('is-paused');clearTimeout(pauseTimer);pauseTimer=setTimeout(()=>{if(!stage.matches(':hover')&&!stage.contains(document.activeElement))stage.classList.remove('is-paused')},30000)};
+ const closeCard=card=>{card.open=false;card.closest('.record-unit')?.classList.remove('is-open')};
+ const centerBuet=()=>{
+   const buet=originals.find(u=>u.classList.contains('buet'));
+   if(!buet)return;
+   if(reduced){stage.scrollLeft=buet.offsetLeft-(stage.clientWidth-buet.offsetWidth)/2;return}
+   const firstWidth=strip.scrollWidth/2;
+   const target=buet.offsetLeft-(stage.clientWidth-buet.offsetWidth)/2;
+   strip.style.animation='none';
+   strip.style.transform='translateX('+(-target)+'px)';
+   strip.style.animation='';
+   // Start the track at the exact position that centers BUET.
+   const duration=48;
+   const offsetPct=(target/firstWidth)*50;
+   strip.style.animationDelay=(-duration*offsetPct/50)+'s';
  };
- units.forEach(unit=>{
-   const card=unit.querySelector('details');
-   const summary=card.querySelector('summary');
-   unit.addEventListener('mouseenter',()=>openOnHover(card));
-   unit.addEventListener('mouseleave',()=>{if(!card.contains(document.activeElement))close(card)});
-   unit.addEventListener('focusin',()=>{clearTimer(card);card.open=true;unit.classList.add('is-open');timers.set(card,setTimeout(()=>{if(!unit.matches(':hover')&&!unit.contains(document.activeElement))close(card)},30000))});
-   unit.addEventListener('focusout',e=>{if(!unit.contains(e.relatedTarget))close(card)});
-   summary.addEventListener('click',()=>{clearTimer(card);requestAnimationFrame(()=>{unit.classList.toggle('is-open',card.open);if(card.open){timers.set(card,setTimeout(()=>{if(!unit.matches(':hover')&&!unit.contains(document.activeElement))close(card)},30000))}})});
+ // Ensure the featured card is centered on first paint; then resume the seamless loop.
+ requestAnimationFrame(()=>{centerBuet();requestAnimationFrame(()=>{strip.style.animationName='academic-circulate';strip.style.animationPlayState='running'})});
+ const sync=()=>{
+   [...strip.querySelectorAll('.record-unit')].forEach(unit=>{
+     const card=unit.querySelector('details');
+     unit.classList.toggle('is-open',card.open);
+   });
+ };
+ [...strip.querySelectorAll('.record-unit')].forEach(unit=>{
+   const card=unit.querySelector('details'),summary=card.querySelector('summary');
+   unit.addEventListener('mouseenter',()=>{pause();card.open=true;unit.classList.add('is-open')});
+   unit.addEventListener('mouseleave',()=>{if(!unit.contains(document.activeElement))closeCard(card)});
+   unit.addEventListener('focusin',()=>{pause();card.open=true;unit.classList.add('is-open')});
+   unit.addEventListener('focusout',e=>{if(!unit.contains(e.relatedTarget))closeCard(card)});
+   summary.addEventListener('click',e=>{
+     e.preventDefault();
+     pause();
+     card.open=!card.open;
+     unit.classList.toggle('is-open',card.open);
+     if(card.open){clearTimeout(unit._closeTimer);unit._closeTimer=setTimeout(()=>{if(!unit.matches(':hover')&&!unit.contains(document.activeElement))closeCard(card)},30000)}
+     else clearTimeout(unit._closeTimer);
+   });
  });
+ stage.addEventListener('mouseenter',()=>{strip.style.animationPlayState='paused'});
+ stage.addEventListener('mouseleave',()=>{if(!stage.contains(document.activeElement))strip.style.animationPlayState='running'});
+ window.addEventListener('resize',()=>{if(reduced)centerBuet()});
 })();
 </script>
 

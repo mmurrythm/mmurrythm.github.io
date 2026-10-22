@@ -427,5 +427,55 @@
 .psychedelic-portal-link{position:relative;isolation:isolate;flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:10px;width:max-content;min-height:38px;max-width:100%;margin:42px auto 38px;padding:10px 16px;border:1px solid rgba(235,188,255,.7);border-radius:5px;overflow:hidden;background-color:#140a2c;background-image:linear-gradient(110deg,rgba(12,7,31,.38),rgba(5,12,25,.52)),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 90'%3E%3Cdefs%3E%3CradialGradient id='a'%3E%3Cstop stop-color='%23ff35b8'/%3E%3Cstop offset='1' stop-color='%23300a68' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='b'%3E%3Cstop stop-color='%2300f5ff'/%3E%3Cstop offset='1' stop-color='%23001c6a' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='320' height='90' fill='%23080920'/%3E%3Cellipse cx='70' cy='40' rx='100' ry='65' fill='url(%23a)'/%3E%3Cellipse cx='255' cy='48' rx='105' ry='65' fill='url(%23b)'/%3E%3Cg fill='none' stroke='%23f6a8ff' stroke-opacity='.5'%3E%3Cpath d='M-10 52 Q30 2 70 52 T150 52 T230 52 T330 52'/%3E%3Cpath d='M-10 61 Q30 11 70 61 T150 61 T230 61 T330 61'/%3E%3Cpath d='M-10 43 Q30 -7 70 43 T150 43 T230 43 T330 43'/%3E%3C/g%3E%3C/svg%3E");background-size:auto,cover;background-position:center;color:#fff0ff;font:9px/1.4 var(--mono);letter-spacing:.06em;text-align:center;box-shadow:0 0 18px rgba(190,75,255,.18),inset 0 0 18px rgba(0,245,255,.06);animation:psychedelic-pulse 7s ease-in-out infinite;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,filter .25s ease}.psychedelic-portal-link:before{content:"";position:absolute;z-index:-1;inset:-2px;background:linear-gradient(115deg,#ff35b8,#784bff,#00f5ff,#35e0cf,#ffad42,#ff35b8);background-size:300% 300%;opacity:.42;filter:blur(12px);animation:psychedelic-flow 8s linear infinite;pointer-events:none}.psychedelic-portal-link>*{position:relative}@keyframes psychedelic-flow{0%{background-position:0% 50%;filter:blur(12px) hue-rotate(0deg)}50%{background-position:100% 50%;filter:blur(15px) hue-rotate(35deg)}100%{background-position:0% 50%;filter:blur(12px) hue-rotate(0deg)}}@keyframes psychedelic-pulse{0%,100%{background-position:50% 50%;box-shadow:0 0 18px rgba(190,75,255,.18),inset 0 0 18px rgba(0,245,255,.06)}50%{background-position:65% 45%;box-shadow:0 0 25px rgba(190,75,255,.25),0 0 22px rgba(0,245,255,.12),inset 0 0 20px rgba(255,53,184,.08)}}.psychedelic-portal-link span:last-child{font-size:14px;color:#8ffaff}.psychedelic-portal-link:hover{transform:translateY(-3px) scale(1.025);border-color:#8ffaff;filter:saturate(1.35);box-shadow:0 0 28px rgba(222,74,255,.4),0 0 34px rgba(0,245,255,.22)}.psychedelic-portal-link:focus-visible{outline:2px solid #8ffaff;outline-offset:4px}
 @media(max-width:760px){.psychedelic-portal-link{width:fit-content;margin:34px auto 30px;padding:10px 12px;font-size:8px}}@media(prefers-reduced-motion:reduce){.psychedelic-portal-link,.psychedelic-portal-link:before{animation:none!important;transition:none!important}.psychedelic-portal-link:hover{transform:none}}
 </style>
+
+<style>
+#language-switcher{position:fixed;right:18px;bottom:18px;z-index:9999;display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid rgba(125,190,220,.35);border-radius:14px;background:rgba(7,13,25,.94);color:#e8eef8;box-shadow:0 8px 30px rgba(0,0,0,.28);backdrop-filter:blur(14px);font:500 13px/1.3 system-ui,sans-serif}
+#language-switcher label{color:#aabbd0;white-space:nowrap}
+#language-switcher select{max-width:170px;border:0;outline:none;background:#101d30;color:#f3f7ff;padding:7px 9px;border-radius:8px;font:inherit}
+.goog-te-banner-frame.skiptranslate,.goog-te-gadget-icon{display:none!important}
+body{top:0!important}
+.goog-te-gadget{font-size:0!important}
+.goog-te-gadget .goog-te-combo{display:none}
+@media(max-width:480px){#language-switcher{right:10px;bottom:10px;max-width:calc(100vw - 20px)}#language-switcher select{max-width:145px}}
+</style>
+<div id="language-switcher" aria-label="Website language">
+  <label for="site-language">Language</label>
+  <select id="site-language" aria-label="Choose website language">
+    <option value="en">English</option><option value="bn">বাংলা — Bangla</option><option value="ar">العربية — Arabic</option><option value="fr">Français — French</option><option value="ru">Русский — Russian</option><option value="es">Español — Spanish</option><option value="pt">Português — Portuguese</option><option value="zh-CN">中文 — Chinese</option><option value="id">Bahasa Indonesia</option>
+  </select>
+</div>
+<div id="google_translate_element" hidden></div>
+<script>
+(function(){
+  var select=document.getElementById('site-language');
+  if(!select)return;
+  function setLanguage(lang){
+    if(lang==='en'){
+      var cookie=document.cookie.split('; ').find(function(row){return row.indexOf('googtrans=')===0;});
+      if(cookie){document.cookie='googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';document.cookie='googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain='+location.hostname;}
+      location.reload();return;
+    }
+    var combo=document.querySelector('.goog-te-combo');
+    if(combo){combo.value=lang;combo.dispatchEvent(new Event('change'));return;}
+    select.value='en';
+    window.__pendingSiteLanguage=lang;
+    if(!document.getElementById('site-translate-script')){
+      var s=document.createElement('script');s.id='site-translate-script';s.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';s.async=true;document.head.appendChild(s);
+    }
+  }
+  select.addEventListener('change',function(){setLanguage(select.value);});
+  window.googleTranslateElementInit=function(){
+    new google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'en,bn,ar,fr,ru,es,pt,zh-CN,id',autoDisplay:false},'google_translate_element');
+    var pending=window.__pendingSiteLanguage;
+    var attempt=0;
+    var timer=setInterval(function(){
+      var combo=document.querySelector('.goog-te-combo');
+      if(combo){clearInterval(timer);combo.value=pending||select.value;if(combo.value!=='en')combo.dispatchEvent(new Event('change'));select.value=combo.value||'en';}
+      if(++attempt>40)clearInterval(timer);
+    },250);
+  };
+})();
+</script>
+
 </body>
 </html>

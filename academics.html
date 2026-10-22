@@ -60,14 +60,15 @@ main{padding-bottom:72px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 @media(prefers-reduced-motion:reduce){.record-unit.buet .record-emblem{animation:none}.record-emblem,.record-card,.record-detail{transition:none;animation:none}}
 
 
-/* Compact technical skills row, placed before academic records */
-.skills-section{margin-top:12px;margin-bottom:34px}
-.skills-list{display:flex;flex-wrap:wrap;gap:10px}
-.skill-item{display:flex;align-items:center;gap:9px;min-width:108px;padding:11px 14px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(10,25,42,.82),rgba(6,13,24,.8));color:#dceafa;font-size:12px;letter-spacing:.015em;transition:border-color .2s ease,background .2s ease}
-.skill-item:hover{border-color:rgba(102,220,255,.48);background:rgba(10,30,47,.9)}
-.skill-item svg{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:var(--cyan);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-@media(max-width:700px){.skills-list{gap:8px}.skill-item{min-width:calc(50% - 4px);flex:1;padding:10px 12px}}
-
+/* Official-inspired rounded-square technology marks */
+.skills-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:14px}
+.skill-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-width:0;min-height:142px;padding:17px 12px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,rgba(10,25,42,.84),rgba(6,13,24,.82));color:#dceafa;font-size:13px;letter-spacing:.015em;transition:transform .28s cubic-bezier(.2,.8,.2,1),border-color .28s ease,background .28s ease,box-shadow .28s ease}
+.skill-item:hover{transform:translateY(-4px);border-color:rgba(102,220,255,.42);background:linear-gradient(145deg,rgba(13,32,50,.95),rgba(6,13,24,.9));box-shadow:0 12px 28px rgba(0,0,0,.2)}
+.skill-item svg{display:block;width:64px;height:64px;flex:0 0 64px;border-radius:15px;filter:drop-shadow(0 5px 12px rgba(0,0,0,.18));transition:transform .32s cubic-bezier(.2,.8,.2,1)}
+.skill-item:hover svg{transform:scale(1.07)}
+@media(max-width:700px){.skills-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.skill-item{min-height:120px;padding:12px 8px;gap:9px}.skill-item svg{width:54px;height:54px;flex-basis:54px}}
+@media(max-width:390px){.skills-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.skill-item,.skill-item svg{transition:none}}
 /* Centered, continuously circulating academic cards */
 .record-stage{position:relative;overflow:hidden;padding:28px 0 34px}
 .record-stage:before,.record-stage:after{content:"";position:absolute;z-index:3;top:0;bottom:0;width:clamp(18px,5vw,64px);pointer-events:none}
@@ -149,13 +150,13 @@ main{padding-bottom:72px}.intro{padding-block:clamp(70px,10vw,115px) 48px;max-wi
 <section class="skills-section" aria-labelledby="skills-title">
 <div class="section-head"><h2 id="skills-title">Skills</h2><span>TOOLS &amp; LANGUAGES</span></div>
 <div class="skills-list" aria-label="Technical skills">
-  <div class="skill-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 3 12l5 7M16 5l5 7-5 7M14 3l-4 18"/></svg><span>C</span></div>
-  <div class="skill-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 3 12l5 7M16 5l5 7-5 7M14 3l-4 18"/></svg><span>C++</span></div>
-  <div class="skill-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8v18H8zM10 7h4M10 11h4M10 15h4M10 19h4"/></svg><span>Java</span></div>
-  <div class="skill-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M8 7h8l2 3v8H6v-8zM9 12h.01M15 12h.01M9 15h6M4 10v6M20 10v6"/></svg><span>Arduino</span></div>
-  <div class="skill-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 6 6 6-6 6M12 18h8"/></svg><span>Bash</span></div>
-  <div class="skill-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg><span>Git</span></div>
-  <div class="skill-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v9H3zM7 8V5h4v3M13 8V5h4v3M7 17v2h4v-2M13 17v2h4v-2M1 11h2M21 11h2"/></svg><span>Docker</span></div>
+  <div class="skill-item"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="3" y="3" width="42" height="42" rx="11" fill="#283593"/><path d="M30.5 17.7c-1.7-1.6-3.8-2.4-6.3-2.4-5.1 0-8.6 3.6-8.6 8.8s3.5 8.8 8.6 8.8c2.5 0 4.7-.9 6.4-2.5l-3.1-3.4c-.9.9-1.9 1.4-3.1 1.4-2.6 0-4.2-1.8-4.2-4.4s1.6-4.4 4.2-4.4c1.2 0 2.2.4 3.1 1.3z" fill="#fff"/></svg><span>C</span></div>
+  <div class="skill-item"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="3" y="3" width="42" height="42" rx="11" fill="#00599C"/><path d="M23 15.3c-5.5 0-9 3.6-9 8.8s3.5 8.8 9 8.8c2.7 0 4.9-1 6.6-2.7l-3.2-3.3c-.9 1-2 1.5-3.3 1.5-2.6 0-4.2-1.7-4.2-4.3s1.6-4.3 4.2-4.3c1.3 0 2.4.5 3.3 1.4l3.2-3.2c-1.7-1.7-3.9-2.7-6.6-2.7z" fill="#fff"/><path d="M33 18v12M29 24h8M40 20v8M37 24h6" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg><span>C++</span></div>
+  <div class="skill-item"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="3" y="3" width="42" height="42" rx="11" fill="#fff"/><path d="M24 8c-5 4-3 6 1 8 3 2 1 4-2 5 7-1 9-5 4-8-2-1-4-2-3-5z" fill="#E76F00"/><path d="M15 25c4 2 14 2 18 0M17 29c3 2 11 2 14 0M20 33c2 1 7 1 9 0M14 22l-2 2 2 2M35 22l2 2-2 2" fill="none" stroke="#5382A1" stroke-width="2" stroke-linecap="round"/><path d="M19 36h12" stroke="#E76F00" stroke-width="2" stroke-linecap="round"/></svg><span>Java</span></div>
+  <div class="skill-item"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="3" y="3" width="42" height="42" rx="11" fill="#00979D"/><g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M8 24h32M15 17a7 7 0 1 0 0 14M33 17a7 7 0 1 1 0 14"/><path d="M15 21v6M12 24h6M30 24h6"/></g></svg><span>Arduino</span></div>
+  <div class="skill-item"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="3" y="3" width="42" height="42" rx="11" fill="#293137"/><path d="m12 15 9 9-9 9M24 33h12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Bash</span></div>
+  <div class="skill-item"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="3" y="3" width="42" height="42" rx="11" fill="#F05032"/><path d="m13 17 12 12M20 14l14 14M18 22l9-9" fill="none" stroke="#fff" stroke-width="2.7" stroke-linecap="round"/><circle cx="13" cy="17" r="3" fill="#fff"/><circle cx="25" cy="29" r="3" fill="#fff"/><circle cx="20" cy="14" r="3" fill="#fff"/><circle cx="34" cy="28" r="3" fill="#fff"/></svg><span>Git</span></div>
+  <div class="skill-item"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="3" y="3" width="42" height="42" rx="11" fill="#2496ED"/><g fill="#fff"><rect x="12" y="18" width="5" height="5" rx=".6"/><rect x="18" y="18" width="5" height="5" rx=".6"/><rect x="24" y="18" width="5" height="5" rx=".6"/><rect x="18" y="12" width="5" height="5" rx=".6"/><rect x="24" y="12" width="5" height="5" rx=".6"/><rect x="30" y="18" width="5" height="5" rx=".6"/><rect x="24" y="24" width="5" height="5" rx=".6"/><path d="M10 25h26c-.8 6-5.2 10-12 10h-3c-6 0-9-3.8-11-10z"/></g></svg><span>Docker</span></div>
 </div>
 </section>
 

@@ -15,6 +15,16 @@ main{padding:54px 0 70px}.eyebrow,.meta{color:var(--cyan);font:10px var(--mono);
 @media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.sidebar .divider,.sidebar .notice,.sidebar .api-status{grid-column:1/-1}.chat{min-height:620px}.messages{max-height:540px}}
 @media(max-width:560px){.container{width:calc(100% - 22px)}.nav{min-height:62px}.nav-links{gap:12px;font-size:9px}.brand img{width:34px;height:34px}.brand-name{font-size:10px}.brand-sub{font-size:8px}.hero{margin-bottom:25px}.hero h1{font-size:47px}.sidebar{grid-template-columns:1fr;padding:14px}.sidebar .divider,.sidebar .notice,.sidebar .api-status{grid-column:auto}.chat{min-height:600px}.chat-head{padding:14px;align-items:flex-start;flex-direction:column}.messages{padding:14px;min-height:320px}.message{max-width:96%}.composer{padding:12px}.composer-bottom{align-items:flex-start;flex-direction:column}.composer-bottom .hint{max-width:none}.tool-grid{grid-template-columns:1fr}.tool{min-height:0}.footer{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+html.embedded-mode body{min-height:100vh}
+html.embedded-mode .header,html.embedded-mode .hero,html.embedded-mode .below,html.embedded-mode footer{display:none!important}
+html.embedded-mode main.container{width:100%;max-width:none;padding:12px 0 0}
+html.embedded-mode .layout{grid-template-columns:245px minmax(0,1fr);gap:12px}
+html.embedded-mode .chat{min-height:calc(100vh - 24px)}
+html.embedded-mode .messages{max-height:none;min-height:300px}
+html.embedded-mode .sidebar{padding:14px;gap:13px}
+@media(max-width:850px){html.embedded-mode .layout{grid-template-columns:1fr}html.embedded-mode .sidebar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}html.embedded-mode .chat{min-height:650px}}
+@media(max-width:560px){html.embedded-mode .sidebar{grid-template-columns:1fr;padding:12px}html.embedded-mode .chat{min-height:620px}html.embedded-mode .messages{max-height:55vh}}
 </style>
 </head>
 <body><div class="ambient" aria-hidden="true"></div>
